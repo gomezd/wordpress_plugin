@@ -26,7 +26,7 @@
 		var localizedMessage;
 
 		if ( l10n ) {
-			var quantifier = (num === 1) ? 'singular' : 'plural';
+			var quantifier = (1 === num) ? 'singular' : 'plural';
 			var template = l10n[key][quantifier];
 
 			localizedMessage = replaceTemplate( template, values );
@@ -78,14 +78,14 @@
 	function markInvalid( element ) {
 		element.addClass( 'invalid ');
 		element.change(function() {
-			if ( element.val() !== '' ) {
+			if ( '' !== element.val().trim() ) {
 				element.removeClass( 'invalid' );
 			}
 		});
 	}
 
 	function checkNotEmpty( element ) {
-		if ( element.val() === '' ) {
+		if ( '' === element.val() ) {
 			markInvalid( element );
 			return false;
 		}
