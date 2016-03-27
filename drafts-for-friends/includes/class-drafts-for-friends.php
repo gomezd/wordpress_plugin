@@ -75,11 +75,11 @@ class DraftsForFriends {
 		);
 	}
 
-	function share_post( $postId, $expires, $unit ) {
+	function share_post( $post_id, $expires, $unit ) {
 		global $current_user;
 
-		if ( $postId ) {
-			$post = get_post( $postId );
+		if ( $post_id ) {
+			$post = get_post( $post_id );
 
 			if ( !$post ) {
 				return __( 'There is no such post!', 'draftsforfriends' );
@@ -101,14 +101,14 @@ class DraftsForFriends {
 		}
 	}
 
-	function process_delete( $key ) {
+	function delete_shared_post( $key ) {
 		unset( $this->user_options['shared'][$key] );
 		$this->save_admin_options();
 	}
 
-	function process_extend( $key, $expires, $unit ) {
+	function extend_shared_post_expiration( $key, $amount, $unit ) {
 		if ( isset( $this->user_options['shared'][$key] ) ) {
-			$this->user_options['shared'][$key]['expires'] += calculate_time( $expires, $unit );
+			$this->user_options['shared'][$key]['expires'] += calculate_time( $amount, $unit );
 			$this->save_admin_options();
 		}
 	}
@@ -149,29 +149,29 @@ class DraftsForFriends {
 		return $drafts;
 	}
 
-	function get_shared() {
+	function get_shared_posts() {
 		return isset( $this->user_options['shared'] ) ? $this->user_options['shared'] : array();
 	}
 
 	function process_page_request() {
 		if ( isset($_POST['draftsforfriends_submit']) ) {
-			$postId = $_POST['post_id'];
+			$post_id = $_POST['post_id'];
 			$expires = $_POST['expires'];
 			$measure = $_POST['measure'];
 
-			$msg = $this->share_post( $postId, $expires, $measure );
+			$msg = $this->share_post( $post_id, $expires, $measure );
 
 		} elseif ( isset($_POST['action']) && $_POST['action'] == 'extend' ) {
-			$key = $_POST['key'];
+			$key     = $_POST['key'];
 			$expires = $_POST['expires'];
 			$measure = $_POST['measure'];
 
-			$msg = $this->process_extend( $key, $expires, $measure );
+			$msg = $this->extend_shared_post_expiration( $key, $expires, $measure );
 
 		} elseif ( isset($_GET['action']) && $_GET['action'] == 'delete') {
 			$key = $_GET['key'];
 
-			$msg = $this->process_delete( $key );
+			$msg = $this->delete_shared_post( $key );
 		}
 
 		$drafts = $this->get_drafts();
@@ -180,12 +180,12 @@ class DraftsForFriends {
 		include_once plugin_dir_path( dirname ( __FILE__ ) ). 'views/drafts-table.php';
 	}
 
-	function can_view ( $postId ) {
+	function can_view ( $post_id ) {
 		foreach ( $this->admin_options as $option ) {
 			$shares = $option['shared'];
 
 			foreach ( $shares as $share ) {
-				if ( $share[ 'key'] == $_GET['draftsforfriends'] && $postId ) {
+				if ( $share[ 'key'] == $_GET['draftsforfriends'] && $post_id ) {
 					return true;
 				}
 			}

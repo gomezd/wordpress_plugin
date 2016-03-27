@@ -9,6 +9,5 @@ Author URI:
 */
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-drafts-for-friends.php';
 
-$DraftsForFriendsInstance = new DraftsForFriends();
-
+$plugin_instance = new DraftsForFriends();
 ?>

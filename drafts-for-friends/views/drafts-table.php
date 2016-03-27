@@ -28,7 +28,7 @@ $measure_select = tmpl_measure_select();
 		</thead>
 		<tbody>
 		<?php
-			$shared = $this->get_shared();
+			$shared = $this->get_shared_posts();
 			foreach ( $shared as $share ) :
 				$post = get_post( $share['id'] );
 				$key = $share['key'];
