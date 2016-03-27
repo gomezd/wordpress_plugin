@@ -25,3 +25,7 @@
 .draftsforfriends .actions {
 	text-align: center;
 }
+
+.draftsforfriends .expired {
+	color: #f00;
+}

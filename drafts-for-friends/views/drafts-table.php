@@ -16,7 +16,7 @@ $measure_select_markup = tmpl_measure_select();
 	<div id="message" class="updated fade"><?php echo esc_html( $msg ); ?></div>
 <?php endif; ?>
 	<h3><?php _e( 'Currently shared drafts', 'draftsforfriends' ); ?></h3>
-	<table class="widefat">
+	<table class="widefat draftsforfriends">
 		<thead>
 			<tr>
 				<th><?php _e( 'ID', 'draftsforfriends' ); ?></th>
@@ -54,8 +54,14 @@ $measure_select_markup = tmpl_measure_select();
 				<td><?php echo esc_html( $post->post_title ); ?></td>
 				<td><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_url( $url ); ?></a></td>
 				<td><?php echo $statuses[$post->post_status]; ?></td>
-				<td><?php echo format_interval( $expires ) ?></td>
-				<td class="draftsforfriends actions">
+				<td>
+
+					<span class="timer"
+						data-expire="<?php echo esc_attr( $expires - time() ); ?>">
+						<?php echo format_interval( $expires ) ?>
+					</span>
+				</td>
+				<td class="actions">
 					<a class="edit extend" href="">
 						<?php _e( 'Extend', 'draftsforfriends' ); ?>
 					</a>
