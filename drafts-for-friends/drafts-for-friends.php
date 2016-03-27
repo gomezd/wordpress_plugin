@@ -11,6 +11,8 @@ Author URI:
 class DraftsForFriends {
 
 	function __construct() {
+		$this->plugin_name = 'drafts-for-friends';
+		$this->version = '0.0.1';
 		add_action( 'init', array( &$this, 'init' ) );
 	}
 
@@ -18,6 +20,7 @@ class DraftsForFriends {
 		global $current_user;
 
 		add_action( 'admin_menu', array( $this, 'add_admin_pages' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'add_admin_scripts' ) );
 		add_filter( 'the_posts', array( $this, 'the_posts_intercept' ) );
 		add_filter( 'posts_results', array( $this, 'posts_results_intercept' ) );
 
@@ -28,14 +31,25 @@ class DraftsForFriends {
 			$this->admin_options[$current_user->ID] : array();
 
 		$this->save_admin_options();
-
-		$this->admin_page_init();
 	}
 
-	function admin_page_init() {
+	function add_admin_scripts() {
+		wp_register_style(
+			$this->plugin_name,
+			plugins_url( 'public/css/drafts-for-friends.css', __FILE__ ),
+			array(),
+			$this->version,
+			'all'
+		);
+		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script( 'jquery'  );
-		add_action( 'admin_head', array($this, 'print_admin_css') );
-		add_action( 'admin_head', array($this, 'print_admin_js') );
+		wp_enqueue_script(
+			$this->plugin_name,
+			plugin_dir_url( __FILE__ ) . 'public/js/drafts-for-friends.js',
+			array(),
+			$this->version,
+			true
+		);
 	}
 
 	function get_admin_options() {
@@ -320,7 +334,7 @@ class DraftsForFriends {
 			foreach ( $shares as $share ) {
 				if ( $share[ 'key'] == $_GET['draftsforfriends'] && $pid ) {
 					return true;
-		  		}
+				}
 			}
 		}
 		return false;
@@ -364,42 +378,6 @@ class DraftsForFriends {
 				<option value="d">${days}</option>
 			</select>
 SELECT;
-	}
-
-	function print_admin_css() {
-?>
-		<style type="text/css">
-			a.draftsforfriends-extend, a.draftsforfriends-extend-cancel { display: none; }
-			form.draftsforfriends-extend { white-space: nowrap; }
-			form.draftsforfriends-extend, form.draftsforfriends-extend input, form.draftsforfriends-extend select { font-size: 11px; }
-			th.actions, td.actions { text-align: center; }
-		</style>
-<?php
-	}
-
-	function print_admin_js() {
-?>
-		<script type="text/javascript">
-			(function( $ ) {
-				$('form.draftsforfriends-extend').hide();
-				$('a.draftsforfriends-extend').show();
-				$('a.draftsforfriends-extend-cancel').show();
-				$('a.draftsforfriends-extend-cancel').css('display', 'inline' );
-
-				window.draftsforfriends = {
-					toggle_extend: function(key) {
-						$('#draftsforfriends-extend-form-'+key).show();
-						$('#draftsforfriends-extend-link-'+key).hide();
-						$('#draftsforfriends-extend-form-'+key+' input[name="expires"]').focus();
-					},
-					cancel_extend: function(key) {
-						$('#draftsforfriends-extend-form-'+key).hide();
-						$('#draftsforfriends-extend-link-'+key).show();
-					}
-				};
-			})( jQuery );
-		</script>
-<?php
 	}
 }
 
