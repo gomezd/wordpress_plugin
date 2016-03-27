@@ -2,6 +2,8 @@
 /**
  * Plugin Name: Drafts for Friends
  */
+require_once plugin_dir_path( dirname (__FILE__ ) ) . 'includes/time-utils.php';
+
 
 class DraftsForFriends {
 
@@ -73,18 +75,6 @@ class DraftsForFriends {
 		);
 	}
 
-	function calc( $time, $unit ) {
-		$mults = array(
-			's' => 1,
-			'm' => 60,
-			'h' => 3600,
-			'd' => 24*3600
-		);
-		$multiply = $mults[$unit] ? $mults[$unit] : 60;
-
-		return $time * $multiply;
-	}
-
 	function share_post( $postId, $expires, $unit ) {
 		global $current_user;
 
@@ -103,7 +93,7 @@ class DraftsForFriends {
 
 			$this->user_options['shared'][$key] = array(
 				'id'      => $post->ID,
-				'expires' => time() + $this->calc( $expires, $unit ),
+				'expires' => time() + calculate_time( $expires, $unit ),
 				'key'     => $key
 			);
 
@@ -118,7 +108,7 @@ class DraftsForFriends {
 
 	function process_extend( $key, $expires, $unit ) {
 		if ( isset( $this->user_options['shared'][$key] ) ) {
-			$this->user_options['shared'][$key]['expires'] += $this->calc( $expires, $unit );
+			$this->user_options['shared'][$key]['expires'] += calculate_time( $expires, $unit );
 			$this->save_admin_options();
 		}
 	}
@@ -163,33 +153,6 @@ class DraftsForFriends {
 		return isset( $this->user_options['shared'] ) ? $this->user_options['shared'] : array();
 	}
 
-	function format_expire_time( $expires ) {
-		$now = new DateTime();
-		$exp = new DateTime();
-		$exp->setTimestamp($expires);
-		$diff = $now->diff($exp);
-		$format = array();
-
-		if ( $diff->h !== 0 ) {
-			$format[] = sprintf( _n( '%d hour', '%d hours', $diff->h, 'draftsforfriends' ), $diff->h );
-		}
-		if ( $diff->i !== 0 ) {
-			$format[] = sprintf( _n( '%d minute', '%d minutes', $diff->i, 'draftsforfriends' ), $diff->i );
-		}
-		if ( ! count( $format ) ) {
-			return __('Less than a minute');
-		} else {
-			$format[] = sprintf( __( '%d seconds', 'draftsforfriends' ), $diff->s );
-		}
-
-		if ( count( $format ) > 1 ) {
-			/* translators: expiration time e.g. 3 hours and 27 minutes or 5 minutes and 10 seconds */
-			return sprintf( __( '%s and %s', 'draftsforfriends' ), $format[0], $format[1] );
-		}
-
-		return $format[0];
-	}
-
 	function process_page_request() {
 		if ( isset($_POST['draftsforfriends_submit']) ) {
 			$postId = $_POST['post_id'];
@@ -214,7 +177,7 @@ class DraftsForFriends {
 		$drafts = $this->get_drafts();
 		$page_name = $_GET['page'];
 
-    	include_once plugin_dir_path( __FILE__ ). '../views/drafts-table.php';
+		include_once plugin_dir_path( dirname ( __FILE__ ) ). 'views/drafts-table.php';
 	}
 
 	function can_view ( $postId ) {

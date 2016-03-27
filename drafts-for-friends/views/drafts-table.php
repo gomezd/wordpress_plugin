@@ -1,7 +1,7 @@
 <?php
 function tmpl_measure_select() {
 	ob_start();
-	require_once 'measure-select.php';
+    include_once plugin_dir_path( dirname ( __FILE__ ) ). 'views/measure-select.php';
 	$markup = ob_get_contents();
 	ob_end_clean();
 	return $markup;
@@ -40,7 +40,7 @@ $measure_select = tmpl_measure_select();
 				<td><?php echo $post->post_title; ?></td>
 				<!-- TODO: make the draft link selecatble -->
 				<td><a href="<?php echo $url; ?>"><?php echo esc_html( $url ); ?></a></td>
-				<td><?php echo $this->format_expire_time( $expires ) ?></td>
+				<td><?php echo format_interval( $expires ) ?></td>
 				<td class="actions">
 					<a class="draftsforfriends-extend edit" id="draftsforfriends-extend-link-<?php echo $key; ?>"
 						href="javascript:draftsforfriends.toggle_extend('<?php echo $key; ?>' );">
