@@ -112,9 +112,9 @@ class DraftsForFriends {
 				return __( 'The post is published!', 'draftsforfriends' );
 			}
 			$this->user_options['shared'][] = array(
-				'id' => $p->ID,
+				'id'      => $p->ID,
 				'expires' => time() + $this->calc( $params ),
-				'key' => 'baba_' . wp_generate_password( 8 )
+				'key'     => 'baba_' . wp_generate_password( 8 )
 			);
 			$this->save_admin_options();
 		}
@@ -152,7 +152,7 @@ class DraftsForFriends {
 		$my_scheduled = get_posts(array(
 			'post_author' => $current_user->ID,
 			'post_status' => 'future',
-			'orderby' => 'post_modified'
+			'orderby'     => 'post_modified'
 		));
 
 		$pending = get_posts(array(
@@ -225,12 +225,12 @@ class DraftsForFriends {
     	include_once plugin_dir_path( __FILE__ ). 'views/drafts-table.php';
 	}
 
-	function can_view ( $pid ) {
+	function can_view ( $postId ) {
 		foreach ( $this->admin_options as $option ) {
 			$shares = $option['shared'];
 
 			foreach ( $shares as $share ) {
-				if ( $share[ 'key'] == $_GET['draftsforfriends'] && $pid ) {
+				if ( $share[ 'key'] == $_GET['draftsforfriends'] && $postId ) {
 					return true;
 				}
 			}
@@ -238,26 +238,26 @@ class DraftsForFriends {
 		return false;
 	}
 
-	function posts_results_intercept( $pp ) {
-		if ( 1 != count( $pp ) ) {
-			return $pp;
+	function posts_results_intercept( $posts ) {
+		if ( 1 != count( $posts ) ) {
+			return $posts;
 		}
 
-		$p = $pp[0];
-		$status = get_post_status( $p );
+		$post = $posts[0];
+		$status = get_post_status( $post );
 
-		if ( 'publish' != $status && $this->can_view($p->ID) ) {
-			$this->shared_post = $p;
+		if ( 'publish' != $status && $this->can_view( $post->ID ) ) {
+			$this->shared_post = $post;
 		}
-		return $pp;
+		return $posts;
 	}
 
-	function the_posts_intercept( $pp ) {
-		if ( empty( $pp ) && ! is_null( $this->shared_post ) ) {
+	function the_posts_intercept( $posts ) {
+		if ( empty( $posts ) && ! is_null( $this->shared_post ) ) {
 			return array( $this->shared_post );
 		} else {
 			$this->shared_post = null;
-			return $pp;
+			return $posts;
 		}
 	}
 
