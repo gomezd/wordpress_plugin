@@ -21,7 +21,8 @@
 			parts.unshift( days + ' days' );
 		}
 		if ( parts.length > 1 ) {
-			parts.splice( parts.length - 1, 0, 'and');
+			// only keep 2 most significant parts, i.e. 2 days and 3 hours, or 4 hours 5 minutes.
+			parts = [ parts[0], 'and', parts[1] ];
 		}
 
 		return parts.join(' ');

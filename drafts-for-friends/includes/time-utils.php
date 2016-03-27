@@ -24,21 +24,19 @@ function format_interval( $time ) {
 	$diff = $now->diff( $exp );
 	$format = array();
 
-	if ( $diff->h !== 0 ) {
+	if ( $diff->h > 0 ) {
 		$format[] = sprintf( _n( '%d hour', '%d hours', $diff->h, 'draftsforfriends' ), $diff->h );
 	}
-	if ( $diff->i !== 0 ) {
+	if ( $diff->i > 0 ) {
 		$format[] = sprintf( _n( '%d minute', '%d minutes', $diff->i, 'draftsforfriends' ), $diff->i );
 	}
-	if ( ! count( $format ) ) {
-		return __( 'Less than a minute' );
-	} else {
-		$format[] = sprintf( __( '%d seconds', 'draftsforfriends' ), $diff->s );
+	if ( $diff->s > 0 ) {
+		$format[] = sprintf( _n( '%d second', '%d seconds', $diff->s, 'draftsforfriends' ), $diff->s );
 	}
 
 	if ( count( $format ) > 1 ) {
-		/* translators: expiration time e.g. 3 hours and 27 minutes or 5 minutes and 10 seconds */
-		return sprintf( __( '%s and %s', 'draftsforfriends' ), $format[0], $format[1] );
+		/* translators: expiration time e.g. 3 days and 5 hours */
+		return sprintf( __( '%s and %s', 'draftsforfriends' ), $format[0], $format[1]);
 	}
 
 	return $format[0];
