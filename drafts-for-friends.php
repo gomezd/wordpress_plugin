@@ -8,9 +8,9 @@ Version: 2.2
 Author URI:
 */
 
-class DraftsForFriends	{
+class DraftsForFriends {
 
-	function __construct(){
+	function __construct() {
 		add_action( 'init', array( &$this, 'init' ) );
 	}
 
@@ -39,18 +39,18 @@ class DraftsForFriends	{
 
 	function get_admin_options() {
 		$saved_options = get_option( 'shared'  );
-		return is_array($saved_options)? $saved_options : array();
+		return is_array( $saved_options )? $saved_options : array();
 	}
 
-    function save_admin_options(){
-        global $current_user;
+	function save_admin_options() {
+		global $current_user;
 
-        if ( $current_user->id > 0 ) {
-            $this->admin_options[$current_user->id] = $this->user_options;
-        }
+		if ( $current_user->id > 0 ) {
+			$this->admin_options[$current_user->id] = $this->user_options;
+		}
 
-        update_option( 'shared', $this->admin_options );
-    }
+		update_option( 'shared', $this->admin_options );
+	}
 
 	function add_admin_pages() {
 		add_submenu_page(
@@ -105,10 +105,10 @@ class DraftsForFriends	{
 		}
 	}
 
-	function process_delete($params) {
+	function process_delete( $params ) {
 		$shared = array();
-		foreach($this->user_options['shared'] as $share) {
-			if ($share['key'] == $params['key']) {
+		foreach ( $this->user_options['shared'] as $share ) {
+			if ( $share['key'] == $params['key'] ) {
 				continue;
 			}
 			$shared[] = $share;
@@ -117,11 +117,11 @@ class DraftsForFriends	{
 		$this->save_admin_options();
 	}
 
-	function process_extend($params) {
+	function process_extend( $params ) {
 		$shared = array();
-		foreach($this->user_options['shared'] as $share) {
-			if ($share['key'] == $params['key']) {
-				$share['expires'] += $this->calc($params);
+		foreach( $this->user_options['shared'] as $share ) {
+			if ( $share['key'] == $params['key'] ) {
+				$share['expires'] += $this->calc( $params );
 			}
 			$shared[] = $share;
 		}
@@ -196,8 +196,8 @@ class DraftsForFriends	{
 				</thead>
 				<tbody>
 				<?php
-					$s = $this->get_shared();
-					foreach ( $s as $share ) :
+					$shared = $this->get_shared();
+					foreach ( $shared as $share ) :
 						$p = get_post( $share['id'] );
 						$key = $share['key'];
 						$url = get_bloginfo( 'url' ) . '/?p=' . $p->ID . '&draftsforfriends='. $key;
@@ -256,7 +256,7 @@ class DraftsForFriends	{
 								<option value="" disabled="disabled"><?php echo $draft[0]; ?></option>
 							<?php
 								foreach ($draft[2] as $d):
-									if ( empty($d->post_title) ) {
+									if ( empty( $d->post_title ) ) {
 										continue;
 									}
 							?>
@@ -282,31 +282,36 @@ class DraftsForFriends	{
 	// end output_existing_menu_sub_admin_page
 	}
 
-	function can_view($pid) {
-		foreach($this->admin_options as $option) {
-		$shares = $option['shared'];
-		foreach($shares as $share) {
-		if (   $share[ 'key'] == $_GET['draftsforfriends'] && $pid) {
-			return true;
-		  }
-		 }
+	function can_view ( $pid ) {
+		foreach ( $this->admin_options as $option ) {
+			$shares = $option['shared'];
+
+			foreach ( $shares as $share ) {
+				if ( $share[ 'key'] == $_GET['draftsforfriends'] && $pid ) {
+					return true;
+		  		}
+			}
 		}
 		return false;
 	}
 
-	function posts_results_intercept($pp) {
-		if (1 != count($pp)) return $pp;
+	function posts_results_intercept( $pp ) {
+		if ( 1 != count( $pp ) ) {
+			return $pp;
+		}
+
 		$p = $pp[0];
-		$status = get_post_status($p);
-		if ('publish' != $status && $this->can_view($p->ID)) {
+		$status = get_post_status( $p );
+
+		if ( 'publish' != $status && $this->can_view($p->ID) ) {
 			$this->shared_post = $p;
 		}
 		return $pp;
 	}
 
-	function the_posts_intercept($pp){
-		if (empty($pp) && !is_null($this->shared_post)) {
-			return array($this->shared_post);
+	function the_posts_intercept( $pp ) {
+		if ( empty( $pp ) && ! is_null( $this->shared_post ) ) {
+			return array( $this->shared_post );
 		} else {
 			$this->shared_post = null;
 			return $pp;
@@ -332,36 +337,36 @@ SELECT;
 
 	function print_admin_css() {
 ?>
-	<style type="text/css">
-		a.draftsforfriends-extend, a.draftsforfriends-extend-cancel { display: none; }
-		form.draftsforfriends-extend { white-space: nowrap; }
-		form.draftsforfriends-extend, form.draftsforfriends-extend input, form.draftsforfriends-extend select { font-size: 11px; }
-		th.actions, td.actions { text-align: center; }
-	</style>
+		<style type="text/css">
+			a.draftsforfriends-extend, a.draftsforfriends-extend-cancel { display: none; }
+			form.draftsforfriends-extend { white-space: nowrap; }
+			form.draftsforfriends-extend, form.draftsforfriends-extend input, form.draftsforfriends-extend select { font-size: 11px; }
+			th.actions, td.actions { text-align: center; }
+		</style>
 <?php
 	}
 
 	function print_admin_js() {
 ?>
-	<script type="text/javascript">
-	jQuery(function() {
-		jQuery('form.draftsforfriends-extend').hide();
-		jQuery('a.draftsforfriends-extend').show();
-		jQuery('a.draftsforfriends-extend-cancel').show();
-		jQuery('a.draftsforfriends-extend-cancel').css('display', 'inline' );
-	});
-	window.draftsforfriends = {
-		toggle_extend: function(key) {
-			jQuery('#draftsforfriends-extend-form-'+key).show();
-			jQuery('#draftsforfriends-extend-link-'+key).hide();
-			jQuery('#draftsforfriends-extend-form-'+key+' input[name="expires"]').focus();
-		},
-		cancel_extend: function(key) {
-			jQuery('#draftsforfriends-extend-form-'+key).hide();
-			jQuery('#draftsforfriends-extend-link-'+key).show();
-		}
-	};
-	</script>
+		<script type="text/javascript">
+			jQuery(function() {
+				jQuery('form.draftsforfriends-extend').hide();
+				jQuery('a.draftsforfriends-extend').show();
+				jQuery('a.draftsforfriends-extend-cancel').show();
+				jQuery('a.draftsforfriends-extend-cancel').css('display', 'inline' );
+			});
+			window.draftsforfriends = {
+				toggle_extend: function(key) {
+					jQuery('#draftsforfriends-extend-form-'+key).show();
+					jQuery('#draftsforfriends-extend-link-'+key).hide();
+					jQuery('#draftsforfriends-extend-form-'+key+' input[name="expires"]').focus();
+				},
+				cancel_extend: function(key) {
+					jQuery('#draftsforfriends-extend-form-'+key).hide();
+					jQuery('#draftsforfriends-extend-link-'+key).show();
+				}
+			};
+		</script>
 <?php
 	}
 }
