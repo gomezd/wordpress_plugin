@@ -55,13 +55,11 @@ $measure_select_markup = tmpl_measure_select();
 				<td><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_url( $url ); ?></a></td>
 				<td><?php echo $statuses[$post->post_status]; ?></td>
 				<td><?php echo format_interval( $expires ) ?></td>
-				<td class="actions">
-					<a class="draftsforfriends-extend edit" id="draftsforfriends-extend-link-<?php echo $key; ?>"
-						href="javascript:draftsforfriends.toggle_extend('<?php echo $key; ?>' );">
-							<?php _e( 'Extend', 'draftsforfriends' ); ?>
+				<td class="draftsforfriends actions">
+					<a class="edit extend" href="">
+						<?php _e( 'Extend', 'draftsforfriends' ); ?>
 					</a>
-					<form class="draftsforfriends-extend" id="draftsforfriends-extend-form-<?php echo $key; ?>"
-						action="" method="post">
+					<form class="small" action="" method="post">
 						<input type="hidden" name="action" value="extend" />
 						<input type="hidden" name="key" value="<?php echo $key; ?>" />
 						<input type="submit" class="button" name="draftsforfriends_extend_submit"
@@ -70,14 +68,14 @@ $measure_select_markup = tmpl_measure_select();
 							_e( 'by', 'draftsforfriends' );
 							echo $measure_select_markup;
 						?>
-						<a class="draftsforfriends-extend-cancel"
-							href="<?php esc_js( "javascript:draftsforfriends.cancel_extend('" . $key . "');" ) ?>">
+						<a class="cancel" href="">
 							<?php _e( 'Cancel', 'draftsforfriends' ); ?>
 						</a>
 					</form>
 				</td>
-				<td class="actions">
-					<a class="delete" href="edit.php?page=<?php echo esc_html( $page_name ); ?>&action=delete&key=<?php echo $key; ?>">
+				<td class="draftforfriends actions">
+					<a class="delete"
+						href="edit.php?page=<?php echo esc_html( $page_name ); ?>&action=delete&key=<?php echo $key; ?>">
 						<?php _e( 'Delete', 'draftsforfriends' ); ?>
 					</a>
 				</td>
@@ -86,7 +84,7 @@ $measure_select_markup = tmpl_measure_select();
 		</tbody>
 	</table>
 	<h3><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h3>
-	<form id="draftsforfriends-share" action="" method="post">
+	<form id="draftsforfriends-share" class="draftsforfriends" action="" method="post">
 		<p>
 			<select id="draftsforfriends-postid" name="post_id">
 				<option value=""><?php _e( 'Choose a draft', 'draftsforfriends' ); ?></option>

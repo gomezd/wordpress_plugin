@@ -1,20 +1,20 @@
 (function( $ ) {
 	'use strict';
 
-	$('form.draftsforfriends-extend').hide();
-	$('a.draftsforfriends-extend').show();
-	$('a.draftsforfriends-extend-cancel').show();
-	$('a.draftsforfriends-extend-cancel').css('display', 'inline' );
+	function hookExtendForms() {
+		$( '.draftsforfriends .extend' ).click(function(event) {
+			event.preventDefault();
+			$( this ).hide();
+			$( this ).next( 'form' ).show();
+		});
 
-	window.draftsforfriends = {
-		toggle_extend: function(key) {
-			$('#draftsforfriends-extend-form-'+key).show();
-			$('#draftsforfriends-extend-link-'+key).hide();
-			$('#draftsforfriends-extend-form-'+key+' input[name="expires"]').focus();
-		},
-		cancel_extend: function(key) {
-			$('#draftsforfriends-extend-form-'+key).hide();
-			$('#draftsforfriends-extend-link-'+key).show();
-		}
-	};
+		$( '.draftsforfriends .cancel' ).click(function(event) {
+			event.preventDefault();
+			$( this ).parent().prev( '.extend' ).show();
+			$( this ).parent().hide();
+		});
+	}
+
+	$( document ).ready(hookExtendForms);
+
 })( jQuery );

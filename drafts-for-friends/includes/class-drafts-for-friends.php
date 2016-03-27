@@ -44,8 +44,7 @@ class DraftsForFriends {
 			$this->plugin_name,
 			plugins_url( 'public/js/drafts-for-friends.js', dirname( __FILE__ ) ),
 			array(),
-			$this->version,
-			true
+			$this->version
 		);
 	}
 

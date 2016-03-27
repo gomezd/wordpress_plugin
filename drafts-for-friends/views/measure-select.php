@@ -1,4 +1,4 @@
-<input name="expires" type="text" value="2" size="4"/>
+<input name="expires" class="fixed" type="text" value="2" size="4"/>
 <select name="measure">
 	<option value="s"><?php echo __( 'seconds', 'draftsforfriends' ); ?></option>
 	<option value="m"><?php echo __( 'minutes', 'draftsforfriends' ) ?></option>

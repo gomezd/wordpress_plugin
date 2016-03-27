@@ -1,6 +1,27 @@
-a.draftsforfriends-extend, a.draftsforfriends-extend-cancel {
+
+.draftsforfriends form {
 	display: none;
+	white-space: nowrap;
 }
-form.draftsforfriends-extend { white-space: nowrap; }
-form.draftsforfriends-extend, form.draftsforfriends-extend input, form.draftsforfriends-extend select { font-size: 11px; }
-th.actions, td.actions { text-align: center; }
+
+.draftsforfriends .small,
+.draftsforfriends .small input,
+.draftsforfriends .small select {
+	font-size: 11px;
+	height: 26px;
+	line-height: 23px;
+}
+
+.draftsforfriends form,
+.draftsforfriends input,
+.draftsforfriends select {
+	vertical-align: baseline;
+}
+
+.draftsforfriends .fixed {
+	height: 28px;
+}
+
+.draftsforfriends .actions {
+	text-align: center;
+}
