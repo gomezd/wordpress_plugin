@@ -23,8 +23,8 @@ class DraftsForFriends {
 
 		$this->admin_options = $this->get_admin_options();
 
-		$this->user_options = ($current_user->id > 0 && isset( $this->admin_options[$current_user->id] )) ?
-			$this->admin_options[$current_user->id] : array();
+		$this->user_options = ($current_user->ID > 0 && isset( $this->admin_options[$current_user->ID] )) ?
+			$this->admin_options[$current_user->ID] : array();
 
 		$this->save_admin_options();
 
@@ -45,8 +45,8 @@ class DraftsForFriends {
 	function save_admin_options() {
 		global $current_user;
 
-		if ( $current_user->id > 0 ) {
-			$this->admin_options[$current_user->id] = $this->user_options;
+		if ( $current_user->ID > 0 ) {
+			$this->admin_options[$current_user->ID] = $this->user_options;
 		}
 
 		update_option( 'shared', $this->admin_options );
@@ -132,16 +132,16 @@ class DraftsForFriends {
 	function get_drafts() {
 		global $current_user;
 
-		$my_drafts = get_users_drafts( $current_user->id );
+		$my_drafts = get_users_drafts( $current_user->ID );
 
 		$my_scheduled = get_posts(array(
-			'post_author' => $current_user->id,
+			'post_author' => $current_user->ID,
 			'post_status' => 'future',
 			'orderby' => 'post_modified'
 		));
 
 		$pending = get_posts(array(
-			'post_author' => $current_user->id,
+			'post_author' => $current_user->ID,
 			'post_status' => 'pending'
 		));
 
