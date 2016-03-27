@@ -7,13 +7,13 @@ function tmpl_measure_select() {
 	return $markup;
 }
 
-$measure_select = tmpl_measure_select();
+$measure_select_markup = tmpl_measure_select();
 ?>
 
 <div class="wrap">
 	<h2><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h2>
 <?php if ( isset($msg) ) : ?>
-	<div id="message" class="updated fade"><?php echo $msg; ?></div>
+	<div id="message" class="updated fade"><?php echo esc_html( $msg ); ?></div>
 <?php endif; ?>
 	<h3><?php _e( 'Currently shared drafts', 'draftsforfriends' ); ?></h3>
 	<table class="widefat">
@@ -31,7 +31,7 @@ $measure_select = tmpl_measure_select();
 			$shared = $this->get_shared_posts();
 			foreach ( $shared as $share ) :
 				$post = get_post( $share['id'] );
-				$key = $share['key'];
+				$key = esc_html( $share['key'] );
 				$expires = $share['expires'];
 				$url = get_bloginfo( 'url' ) . '/?p=' . $post->ID . '&draftsforfriends='. $key;
 		?>
@@ -39,7 +39,7 @@ $measure_select = tmpl_measure_select();
 				<td><?php echo $post->ID; ?></td>
 				<td><?php echo $post->post_title; ?></td>
 				<!-- TODO: make the draft link selecatble -->
-				<td><a href="<?php echo $url; ?>"><?php echo esc_html( $url ); ?></a></td>
+				<td><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_url( $url ); ?></a></td>
 				<td><?php echo format_interval( $expires ) ?></td>
 				<td class="actions">
 					<a class="draftsforfriends-extend edit" id="draftsforfriends-extend-link-<?php echo $key; ?>"
@@ -52,16 +52,18 @@ $measure_select = tmpl_measure_select();
 						<input type="hidden" name="key" value="<?php echo $key; ?>" />
 						<input type="submit" class="button" name="draftsforfriends_extend_submit"
 							value="<?php _e( 'Extend', 'draftsforfriends' ); ?>"/>
-						<?php _e( 'by', 'draftsforfriends' );?>
-						<?php echo $measure_select; ?>
+						<?php
+							_e( 'by', 'draftsforfriends' );
+							echo $measure_select_markup;
+						?>
 						<a class="draftsforfriends-extend-cancel"
-							href="javascript:draftsforfriends.cancel_extend('<?php echo $key; ?>');">
+							href="<?php esc_js( "javascript:draftsforfriends.cancel_extend('" . $key . "');" ) ?>">
 							<?php _e( 'Cancel', 'draftsforfriends' ); ?>
 						</a>
 					</form>
 				</td>
 				<td class="actions">
-					<a class="delete" href="edit.php?page=<?php echo $page_name; ?>&action=delete&key=<?php echo $key; ?>">
+					<a class="delete" href="edit.php?page=<?php echo esc_html( $page_name ); ?>&action=delete&key=<?php echo $key; ?>">
 						<?php _e( 'Delete', 'draftsforfriends' ); ?>
 					</a>
 				</td>
@@ -69,7 +71,7 @@ $measure_select = tmpl_measure_select();
 		<?php
 			endforeach;
 
-			if ( empty($s) ) :
+			if ( empty( $s ) ) :
 		?>
 			<tr>
 				<td colspan="5"><?php _e( 'No shared drafts!', 'draftsforfriends' ); ?></td>
@@ -108,7 +110,7 @@ $measure_select = tmpl_measure_select();
 			<input type="submit" class="button" name="draftsforfriends_submit"
 				value="<?php _e( 'Share it', 'draftsforfriends' ); ?>" />
 			<?php _e( 'for', 'draftsforfriends' ); ?>
-			<?php echo $measure_select; ?>
+			<?php echo $measure_select_markup; ?>
 		</p>
 	</form>
 </div>

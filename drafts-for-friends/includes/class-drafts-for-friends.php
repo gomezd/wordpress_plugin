@@ -155,27 +155,27 @@ class DraftsForFriends {
 
 	function process_page_request() {
 		if ( isset($_POST['draftsforfriends_submit']) ) {
-			$post_id = $_POST['post_id'];
-			$expires = $_POST['expires'];
-			$measure = $_POST['measure'];
+			$post_id = intval( $_POST['post_id'] );
+			$expires = intval ( $_POST['expires'] );
+			$measure = sanitize_key( $_POST['measure'] );
 
 			$msg = $this->share_post( $post_id, $expires, $measure );
 
-		} elseif ( isset($_POST['action']) && $_POST['action'] == 'extend' ) {
-			$key     = $_POST['key'];
-			$expires = $_POST['expires'];
-			$measure = $_POST['measure'];
+		} elseif ( isset($_POST['action']) && 'extend' == $_POST['action'] ) {
+			$key     = sanitize_text_field( $_POST['key'] );
+			$expires = intval( $_POST['expires'] );
+			$measure = sanitize_key( $_POST['measure'] );
 
 			$msg = $this->extend_shared_post_expiration( $key, $expires, $measure );
 
-		} elseif ( isset($_GET['action']) && $_GET['action'] == 'delete') {
-			$key = $_GET['key'];
+		} elseif ( isset($_GET['action']) &&'delete' == $_GET['action']) {
+			$key = sanitize_text_field( $_GET['key'] );
 
 			$msg = $this->delete_shared_post( $key );
 		}
 
 		$drafts = $this->get_drafts();
-		$page_name = $_GET['page'];
+		$page_name = sanitize_key( $_GET['page'] );
 
 		include_once plugin_dir_path( dirname ( __FILE__ ) ). 'views/drafts-table.php';
 	}
