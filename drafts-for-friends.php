@@ -23,7 +23,8 @@ class DraftsForFriends {
 
 		$this->admin_options = $this->get_admin_options();
 
-		$this->user_options = ($current_user->ID > 0 && isset( $this->admin_options[$current_user->ID] )) ?
+		$this->user_options =
+			($current_user->ID > 0 && isset( $this->admin_options[$current_user->ID] )) ?
 			$this->admin_options[$current_user->ID] : array();
 
 		$this->save_admin_options();
@@ -169,6 +170,33 @@ class DraftsForFriends {
 		return isset( $this->user_options['shared'] ) ? $this->user_options['shared'] : array();
 	}
 
+	function format_expire_time( $expires ) {
+		$now = new DateTime();
+		$exp = new DateTime();
+		$exp->setTimestamp($expires);
+		$diff = $now->diff($exp);
+		$format = array();
+
+		if ( $diff->h !== 0 ) {
+			$format[] = sprintf( _n( '%d hour', '%d hours', $diff->h, 'draftsforfriends' ), $diff->h );
+		}
+		if ( $diff->i !== 0 ) {
+			$format[] = sprintf( _n( '%d minute', '%d minutes', $diff->i, 'draftsforfriends' ), $diff->i );
+		}
+		if ( ! count( $format ) ) {
+			return __('Less than a minute');
+		} else {
+			$format[] = sprintf( __( '%d seconds', 'draftsforfriends' ), $diff->s );
+		}
+
+		if ( count( $format ) > 1 ) {
+			/* translators: expiration time e.g. 3 hours and 27 minutes or 5 minutes and 10 seconds */
+			return sprintf( __( '%s and %s', 'draftsforfriends' ), $format[0], $format[1] );
+		}
+
+		return $format[0];
+	}
+
 	function output_existing_menu_sub_admin_page() {
 		if ( isset($_POST['draftsforfriends_submit']) ) {
 			$msg = $this->process_post_options( $_POST );
@@ -191,6 +219,7 @@ class DraftsForFriends {
 						<th><?php _e( 'ID', 'draftsforfriends' ); ?></th>
 						<th><?php _e( 'Title', 'draftsforfriends' ); ?></th>
 						<th><?php _e( 'Link', 'draftsforfriends' ); ?></th>
+						<th><?php _e( 'Expires In', 'draftsforfriends' ); ?></th>
 						<th colspan="2" class="actions"><?php _e( 'Actions', 'draftsforfriends' ); ?></th>
 					</tr>
 				</thead>
@@ -198,15 +227,17 @@ class DraftsForFriends {
 				<?php
 					$shared = $this->get_shared();
 					foreach ( $shared as $share ) :
-						$p = get_post( $share['id'] );
+						$post = get_post( $share['id'] );
 						$key = $share['key'];
-						$url = get_bloginfo( 'url' ) . '/?p=' . $p->ID . '&draftsforfriends='. $key;
+						$expires = $share['expires'];
+						$url = get_bloginfo( 'url' ) . '/?p=' . $post->ID . '&draftsforfriends='. $key;
 				?>
 					<tr>
-						<td><?php echo $p->ID; ?></td>
-						<td><?php echo $p->post_title; ?></td>
+						<td><?php echo $post->ID; ?></td>
+						<td><?php echo $post->post_title; ?></td>
 						<!-- TODO: make the draft link selecatble -->
 						<td><a href="<?php echo $url; ?>"><?php echo esc_html( $url ); ?></a></td>
+						<td><?php echo $this->format_expire_time( $expires ) ?></td>
 						<td class="actions">
 							<a class="draftsforfriends-extend edit" id="draftsforfriends-extend-link-<?php echo $key; ?>"
 								href="javascript:draftsforfriends.toggle_extend('<?php echo $key; ?>' );">

@@ -1,110 +1,142 @@
-# Copyright (C) 2010 Drafts for Friends
+# Copyright (C) 2016 Drafts for Friends
 # This file is distributed under the same license as the Drafts for Friends package.
 msgid ""
 msgstr ""
 "Project-Id-Version: Drafts for Friends 2.2\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/drafts-for-friends\n"
-"POT-Creation-Date: 2011-12-29 19:42:15+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plugins\n"
+"POT-Creation-Date: 2016-03-25 07:57:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#. #-#-#-#-#  drafts-for-friends.pot (Drafts for Friends 2.2)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: drafts-for-friends.php:52 drafts-for-friends.php:156
-#: drafts-for-friends.php:217
+#: drafts-for-friends.php:59 drafts-for-friends.php:60
+#: drafts-for-friends.php:211 drafts-for-friends.php:277
 msgid "Drafts for Friends"
 msgstr ""
 
-#: drafts-for-friends.php:74
+#: drafts-for-friends.php:95
 msgid "There is no such post!"
 msgstr ""
 
-#: drafts-for-friends.php:77
+#: drafts-for-friends.php:98
 msgid "The post is published!"
 msgstr ""
 
-#: drafts-for-friends.php:117
+#: drafts-for-friends.php:151
 msgid "Your Drafts:"
 msgstr ""
 
-#: drafts-for-friends.php:122
+#: drafts-for-friends.php:156
 msgid "Your Scheduled Posts:"
 msgstr ""
 
-#: drafts-for-friends.php:127
+#: drafts-for-friends.php:161
 msgid "Pending Review:"
 msgstr ""
 
-#: drafts-for-friends.php:160
+#: drafts-for-friends.php:181
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: drafts-for-friends.php:184
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: drafts-for-friends.php:187
+msgid "Less than a minute"
+msgstr ""
+
+#: drafts-for-friends.php:189
+msgid "%d seconds"
+msgstr ""
+
+#. translators: expiration time e.g. 3 hours and 27 minutes or 5 minutes and 10
+#. seconds
+
+#: drafts-for-friends.php:194
+msgid "%s and %s"
+msgstr ""
+
+#: drafts-for-friends.php:215
 msgid "Currently shared drafts"
 msgstr ""
 
-#: drafts-for-friends.php:164
+#: drafts-for-friends.php:219
 msgid "ID"
 msgstr ""
 
-#: drafts-for-friends.php:165
+#: drafts-for-friends.php:220
 msgid "Title"
 msgstr ""
 
-#: drafts-for-friends.php:166
+#: drafts-for-friends.php:221
 msgid "Link"
 msgstr ""
 
-#: drafts-for-friends.php:167
+#: drafts-for-friends.php:222
+msgid "Expires In"
+msgstr ""
+
+#: drafts-for-friends.php:223
 msgid "Actions"
 msgstr ""
 
-#: drafts-for-friends.php:185 drafts-for-friends.php:192
+#: drafts-for-friends.php:244 drafts-for-friends.php:251
 msgid "Extend"
 msgstr ""
 
-#: drafts-for-friends.php:193
+#: drafts-for-friends.php:252
 msgid "by"
 msgstr ""
 
-#: drafts-for-friends.php:197
+#: drafts-for-friends.php:256
 msgid "Cancel"
 msgstr ""
 
-#: drafts-for-friends.php:202
+#: drafts-for-friends.php:262
 msgid "Delete"
 msgstr ""
 
-#: drafts-for-friends.php:210
+#: drafts-for-friends.php:272
 msgid "No shared drafts!"
 msgstr ""
 
-#: drafts-for-friends.php:221
+#: drafts-for-friends.php:281
 msgid "Choose a draft"
 msgstr ""
 
-#: drafts-for-friends.php:242
+#: drafts-for-friends.php:306
 msgid "Share it"
 msgstr ""
 
-#: drafts-for-friends.php:243
+#: drafts-for-friends.php:307
 msgid "for"
 msgstr ""
 
-#: drafts-for-friends.php:283
+#: drafts-for-friends.php:353
 msgid "seconds"
 msgstr ""
 
-#: drafts-for-friends.php:284
+#: drafts-for-friends.php:354
 msgid "minutes"
 msgstr ""
 
-#: drafts-for-friends.php:285
+#: drafts-for-friends.php:355
 msgid "hours"
 msgstr ""
 
-#: drafts-for-friends.php:286
+#: drafts-for-friends.php:356
 msgid "days"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Drafts for Friends"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -112,9 +144,7 @@ msgid "http://automattic.com/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid ""
-"Now you don't need to dd friends as users to the blog in order to let them "
-"preview your drafts"
+msgid "Now you don't need to add friends as users to the blog in order to let them preview your drafts"
 msgstr ""
 
 #. Author of the plugin/theme
