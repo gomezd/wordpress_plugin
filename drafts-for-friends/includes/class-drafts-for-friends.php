@@ -252,14 +252,5 @@ class DraftsForFriends {
 			return $posts;
 		}
 	}
-
-	function tmpl_measure_select() {
-		$secs  =  __( 'seconds', 'draftsforfriends' );
-		$mins  =  __( 'minutes', 'draftsforfriends' );
-		$hours =  __( 'hours', 'draftsforfriends' );
-		$days  =  __( 'days', 'draftsforfriends' );
-
-		include plugin_dir_path( __FILE__ ). '../views/measure-select.php';
-	}
 }
 ?>

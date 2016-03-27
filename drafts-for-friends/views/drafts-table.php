@@ -1,3 +1,15 @@
+<?php
+function tmpl_measure_select() {
+	ob_start();
+	require_once 'measure-select.php';
+	$markup = ob_get_contents();
+	ob_end_clean();
+	return $markup;
+}
+
+$measure_select = tmpl_measure_select();
+?>
+
 <div class="wrap">
 	<h2><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h2>
 <?php if ( isset($msg) ) : ?>
@@ -41,7 +53,7 @@
 						<input type="submit" class="button" name="draftsforfriends_extend_submit"
 							value="<?php _e( 'Extend', 'draftsforfriends' ); ?>"/>
 						<?php _e( 'by', 'draftsforfriends' );?>
-						<?php echo $this->tmpl_measure_select(); ?>
+						<?php echo $measure_select; ?>
 						<a class="draftsforfriends-extend-cancel"
 							href="javascript:draftsforfriends.cancel_extend('<?php echo $key; ?>');">
 							<?php _e( 'Cancel', 'draftsforfriends' ); ?>
@@ -96,7 +108,7 @@
 			<input type="submit" class="button" name="draftsforfriends_submit"
 				value="<?php _e( 'Share it', 'draftsforfriends' ); ?>" />
 			<?php _e( 'for', 'draftsforfriends' ); ?>
-			<?php echo $this->tmpl_measure_select(); ?>
+			<?php echo $measure_select; ?>
 		</p>
 	</form>
 </div>
