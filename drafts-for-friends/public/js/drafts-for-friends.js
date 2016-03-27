@@ -75,7 +75,32 @@
 		return parts[0];
 	}
 
-	function hookExtendForms() {
+	function markInvalid( element ) {
+		element.addClass( 'invalid ');
+		element.change(function() {
+			if ( element.val() !== '' ) {
+				element.removeClass( 'invalid' );
+			}
+		});
+	}
+
+	function checkNotEmpty( element ) {
+		if ( element.val() === '' ) {
+			markInvalid( element );
+			return false;
+		}
+		return true;
+	}
+
+	function checkIsNumeric( element ) {
+		if ( isNaN( parseInt( element.val() ) ) ) {
+			markInvalid( element );
+			return false;
+		}
+		return true;
+	}
+
+	function init() {
 		$( '.draftsforfriends .extend' ).click(function( event ) {
 			event.preventDefault();
 			$( this ).hide();
@@ -88,7 +113,7 @@
 			$( this ).parent().hide();
 		});
 
-		$( '.draftsforfriends .timer' ).each(function () {
+		$( '.draftsforfriends .timer' ).each(function() {
 			var label = $( this );
 			var time = label.data('expire');
 
@@ -114,8 +139,27 @@
 
 			updateTime( label, time );
 		});
+
+		$( '#draftsforfriends-share' ).submit(function( event ) {
+			var shareForm = $( this );
+			var postSelect = shareForm.find( "select[name='post_id']" );
+			var timeTextField = shareForm.find( "input[name='expires']" );
+
+			return checkNotEmpty( postSelect ) &&
+				checkNotEmpty( timeTextField ) &&
+				checkIsNumeric( timeTextField );
+		});
+
+		$( '.draftsforfriends .actions form' ).each(function() {
+			var form = $( this );
+			var timeTextField = form.find( "input[name='expires']" );
+
+			form.submit(function( event ) {
+				return checkNotEmpty( timeTextField ) && checkIsNumeric( timeTextField );
+			});
+		});
 	}
 
-	$( document ).ready(hookExtendForms);
+	$( document ).ready(init);
 
 })( jQuery );

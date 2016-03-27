@@ -1,7 +1,10 @@
 
 .draftsforfriends form {
-	display: none;
 	white-space: nowrap;
+}
+
+.draftsforfriends .shared form {
+	display: none;
 }
 
 .draftsforfriends .small,
@@ -26,8 +29,13 @@
 	text-align: center;
 }
 
-.draftsforfriends .expired {
+.draftsforfriends .expired,
+.draftsforfriends .invalid {
 	color: #f00;
+}
+
+.draftsforfriends .invalid {
+	border: 1px solid #f00;
 }
 
 .draftsforfriends .timer {

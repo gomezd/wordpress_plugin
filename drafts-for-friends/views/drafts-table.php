@@ -1,22 +1,10 @@
-<?php
-function tmpl_measure_select() {
-	ob_start();
-    include_once plugin_dir_path( dirname ( __FILE__ ) ). 'views/measure-select.php';
-	$markup = ob_get_contents();
-	ob_end_clean();
-	return $markup;
-}
-
-$measure_select_markup = tmpl_measure_select();
-?>
-
-<div class="wrap">
+<div class="wrap draftsforfriends">
 	<h2><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h2>
 <?php if ( isset($msg) ) : ?>
 	<div id="message" class="updated fade"><?php echo esc_html( $msg ); ?></div>
 <?php endif; ?>
 	<h3><?php _e( 'Currently shared drafts', 'draftsforfriends' ); ?></h3>
-	<table class="widefat draftsforfriends">
+	<table class="widefat shared">
 		<thead>
 			<tr>
 				<th><?php _e( 'ID', 'draftsforfriends' ); ?></th>
@@ -76,7 +64,7 @@ $measure_select_markup = tmpl_measure_select();
 							value="<?php _e( 'Extend', 'draftsforfriends' ); ?>"/>
 						<?php
 							_e( 'by', 'draftsforfriends' );
-							echo $measure_select_markup;
+							include plugin_dir_path( dirname ( __FILE__ ) ). 'views/measure-select.php';
 						?>
 						<a class="cancel" href="">
 							<?php _e( 'Cancel', 'draftsforfriends' ); ?>
@@ -93,38 +81,5 @@ $measure_select_markup = tmpl_measure_select();
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-	<h3><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h3>
-	<form id="draftsforfriends-share" class="draftsforfriends" action="" method="post">
-		<p>
-			<select id="draftsforfriends-postid" name="post_id">
-				<option value=""><?php _e( 'Choose a draft', 'draftsforfriends' ); ?></option>
-			<?php
-				foreach ( $drafts as $draft ) :
-					if ( !empty ( $draft['posts'] ) ) :
-			?>
-						<option value="" disabled="disabled"></option>
-						<option value="" disabled="disabled"><?php echo esc_html( $draft['label'] ); ?></option>
-					<?php
-						foreach ( $draft['posts'] as $post ):
-							if ( empty( $post->post_title ) ) {
-								continue;
-							}
-					?>
-							<option value="<?php echo esc_attr( $post->ID ); ?>">
-								<?php echo esc_html( $post->post_title ); ?>
-							</option>
-					<?php
-						endforeach;
-					endif;
-				endforeach;
-			?>
-			</select>
-		</p>
-		<p>
-			<input type="submit" class="button" name="draftsforfriends_submit"
-				value="<?php _e( 'Share it', 'draftsforfriends' ); ?>" />
-			<?php _e( 'for', 'draftsforfriends' ); ?>
-			<?php echo $measure_select_markup; ?>
-		</p>
-	</form>
+	<?php include_once plugin_dir_path( dirname ( __FILE__ ) ). 'views/share-form.php'; ?>
 </div>
