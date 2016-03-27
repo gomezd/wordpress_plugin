@@ -6,7 +6,7 @@ Description: Now you don't need to add friends as users to the blog in order to 
 Author: Neville Longbottom
 Version: 2.2
 Author URI:
-*/ 
+*/
 
 class DraftsForFriends	{
 
@@ -48,9 +48,15 @@ class DraftsForFriends	{
         update_option('shared', $this->admin_options);
     }
 
-	function add_admin_pages(){
-		add_submenu_page("edit.php", __('Drafts for Friends', 'draftsforfriends'), __('Drafts for Friends', 'draftsforfriends'),
-			1, __FILE__, array($this, 'output_existing_menu_sub_admin_page'));
+	function add_admin_pages() {
+		add_submenu_page(
+			'edit.php',
+			__( 'Drafts for Friends', 'draftsforfriends' ),
+			__( 'Drafts for Friends', 'draftsforfriends' ),
+			'edit_posts',
+			'drafts-for-friends',
+			array( $this, 'output_existing_menu_sub_admin_page' )
+		);
 	}
 
 	function calc($params) {
@@ -80,7 +86,7 @@ class DraftsForFriends	{
 				'expires' => time() + $this->calc($params),
 				'key' => 'baba_' . wp_generate_password( 8 ) );
 			$this->save_admin_options();
-		}	
+		}
 	}
 
 	function process_delete($params) {
@@ -89,7 +95,7 @@ class DraftsForFriends	{
 			if ($share['key'] == $params['key']) {
 				continue;
 			}
-			$shared[] = $share;	     
+			$shared[] = $share;
 		}
 		$this->user_options['shared'] = $shared;
 		$this->save_admin_options();
@@ -129,31 +135,31 @@ class DraftsForFriends	{
 				$pending,
 			),
 		);
-		return $ds; 
+		return $ds;
 	}
-	
+
 	function get_users_future($user_id) {
 		global $wpdb;
 		return $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'future' AND post_author = $user_id ORDER BY post_modified DESC");
 	}
 
 	function get_shared() {
-		return $this->user_options['shared'];
+		return isset($this->user_options['shared']) ? $this->user_options['shared'] : array();
 	}
 
-	function output_existing_menu_sub_admin_page(){
-		if ($_POST['draftsforfriends_submit']) {
+	function output_existing_menu_sub_admin_page() {
+		if ( isset($_POST['draftsforfriends_submit']) ) {
 			$t = $this->process_post_options($_POST);
-		} elseif ($_POST['action'] == 'extend') {
+		} elseif ( isset($_POST['action']) && $_POST['action'] == 'extend' ) {
 			$t = $this->process_extend($_POST);
-		} elseif ($_GET['action'] == 'delete') {
+		} elseif ( isset($_GET['action']) && $_GET['action'] == 'delete') {
 			$t = $this->process_delete($_GET);
 		}
 		$ds = $this->get_drafts();
 ?>
 	<div class="wrap">
 		<h2><?php _e('Drafts for Friends', 'draftsforfriends'); ?></h2>
-<?php 	if ($t):?>
+<?php 	if ( isset($t) ): ?>
 		<div id="message" class="updated fade"><?php echo $t; ?></div>
 <?php 	endif;?>
 		<h3><?php _e('Currently shared drafts', 'draftsforfriends'); ?></h3>
@@ -184,13 +190,13 @@ class DraftsForFriends	{
 							<?php _e('Extend', 'draftsforfriends'); ?>
 					</a>
 					<form class="draftsforfriends-extend" id="draftsforfriends-extend-form-<?php echo $share['key']; ?>"
-						action="" method="post">	
+						action="" method="post">
 						<input type="hidden" name="action" value="extend" />
 						<input type="hidden" name="key" value="<?php echo $share['key']; ?>" />
 						<input type="submit" class="button" name="draftsforfriends_extend_submit"
 							value="<?php _e('Extend', 'draftsforfriends'); ?>"/>
 <?php _e('by', 'draftsforfriends');?>
-<?php echo $this->tmpl_measure_select(); ?>				
+<?php echo $this->tmpl_measure_select(); ?>
 						<a class="draftsforfriends-extend-cancel"
 							href="javascript:draftsforfriends.cancel_extend('<?php echo $share['key']; ?>');">
 							<?php _e('Cancel', 'draftsforfriends'); ?>
@@ -228,7 +234,7 @@ class DraftsForFriends	{
 				foreach($dt[2] as $d):
 					if (empty($d->post_title)) continue;
 ?>
-			<option value="<?php echo $d->ID?>"><?php echo wp_specialchars($d->post_title); ?></option>
+			<option value="<?php echo $d->ID?>"><?php echo esc_html($d->post_title); ?></option>
 <?php
 				endforeach;
 			endif;
@@ -330,4 +336,4 @@ SELECT;
 	}
 }
 
-new draftsforfriends();
+$DraftsForFriendsInstance = new DraftsForFriends();
