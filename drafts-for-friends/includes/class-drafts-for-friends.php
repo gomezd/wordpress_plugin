@@ -33,7 +33,7 @@ class DraftsForFriends {
 	function add_admin_scripts() {
 		wp_register_style(
 			$this->plugin_name,
-			plugins_url( '../public/css/drafts-for-friends.css', __FILE__ ),
+			plugins_url( 'public/css/drafts-for-friends.css', dirname ( __FILE__ ) ),
 			array(),
 			$this->version,
 			'all'
@@ -42,7 +42,7 @@ class DraftsForFriends {
 		wp_enqueue_script( 'jquery'  );
 		wp_enqueue_script(
 			$this->plugin_name,
-			plugin_dir_url( __FILE__ ) . '../public/js/drafts-for-friends.js',
+			plugins_url( 'public/js/drafts-for-friends.js', dirname( __FILE__ ) ),
 			array(),
 			$this->version,
 			true
