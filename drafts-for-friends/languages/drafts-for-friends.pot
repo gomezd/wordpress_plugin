@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Drafts for Friends package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Drafts for Friends 2.2\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/plugins\n"
-"POT-Creation-Date: 2016-03-25 07:57:06+00:00\n"
+"Project-Id-Version: Drafts for Friends 0.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/drafts-for-friends\n"
+"POT-Creation-Date: 2016-03-26 06:50:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,127 +12,128 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: drafts-for-friends.php:59 drafts-for-friends.php:60
-#: drafts-for-friends.php:211 drafts-for-friends.php:277
+#: includes/class-drafts-for-friends.php:70
+#: includes/class-drafts-for-friends.php:71 views/drafts-table.php:14
+#: views/drafts-table.php:80
 msgid "Drafts for Friends"
 msgstr ""
 
-#: drafts-for-friends.php:95
+#: includes/class-drafts-for-friends.php:85
 msgid "There is no such post!"
 msgstr ""
 
-#: drafts-for-friends.php:98
+#: includes/class-drafts-for-friends.php:89
 msgid "The post is published!"
 msgstr ""
 
-#: drafts-for-friends.php:151
+#: includes/class-drafts-for-friends.php:134
 msgid "Your Drafts:"
 msgstr ""
 
-#: drafts-for-friends.php:156
+#: includes/class-drafts-for-friends.php:139
 msgid "Your Scheduled Posts:"
 msgstr ""
 
-#: drafts-for-friends.php:161
+#: includes/class-drafts-for-friends.php:144
 msgid "Pending Review:"
 msgstr ""
 
-#: drafts-for-friends.php:181
+#: includes/time-utils.php:23
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: drafts-for-friends.php:184
+#: includes/time-utils.php:26
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: drafts-for-friends.php:187
+#: includes/time-utils.php:29
 msgid "Less than a minute"
 msgstr ""
 
-#: drafts-for-friends.php:189
+#: includes/time-utils.php:31
 msgid "%d seconds"
 msgstr ""
 
 #. translators: expiration time e.g. 3 hours and 27 minutes or 5 minutes and 10
 #. seconds
 
-#: drafts-for-friends.php:194
+#: includes/time-utils.php:36
 msgid "%s and %s"
 msgstr ""
 
-#: drafts-for-friends.php:215
+#: views/drafts-table.php:18
 msgid "Currently shared drafts"
 msgstr ""
 
-#: drafts-for-friends.php:219
+#: views/drafts-table.php:22
 msgid "ID"
 msgstr ""
 
-#: drafts-for-friends.php:220
+#: views/drafts-table.php:23
 msgid "Title"
 msgstr ""
 
-#: drafts-for-friends.php:221
+#: views/drafts-table.php:24
 msgid "Link"
 msgstr ""
 
-#: drafts-for-friends.php:222
+#: views/drafts-table.php:25
 msgid "Expires In"
 msgstr ""
 
-#: drafts-for-friends.php:223
+#: views/drafts-table.php:26
 msgid "Actions"
 msgstr ""
 
-#: drafts-for-friends.php:244 drafts-for-friends.php:251
+#: views/drafts-table.php:47 views/drafts-table.php:54
 msgid "Extend"
 msgstr ""
 
-#: drafts-for-friends.php:252
+#: views/drafts-table.php:55
 msgid "by"
 msgstr ""
 
-#: drafts-for-friends.php:256
+#: views/drafts-table.php:59
 msgid "Cancel"
 msgstr ""
 
-#: drafts-for-friends.php:262
+#: views/drafts-table.php:65
 msgid "Delete"
 msgstr ""
 
-#: drafts-for-friends.php:272
+#: views/drafts-table.php:75
 msgid "No shared drafts!"
 msgstr ""
 
-#: drafts-for-friends.php:281
+#: views/drafts-table.php:84
 msgid "Choose a draft"
 msgstr ""
 
-#: drafts-for-friends.php:306
+#: views/drafts-table.php:109
 msgid "Share it"
 msgstr ""
 
-#: drafts-for-friends.php:307
+#: views/drafts-table.php:110
 msgid "for"
 msgstr ""
 
-#: drafts-for-friends.php:353
+#: views/measure-select.php:3
 msgid "seconds"
 msgstr ""
 
-#: drafts-for-friends.php:354
+#: views/measure-select.php:4
 msgid "minutes"
 msgstr ""
 
-#: drafts-for-friends.php:355
+#: views/measure-select.php:5
 msgid "hours"
 msgstr ""
 
-#: drafts-for-friends.php:356
+#: views/measure-select.php:6
 msgid "days"
 msgstr ""
 #. Plugin Name of the plugin/theme
@@ -148,5 +149,5 @@ msgid "Now you don't need to add friends as users to the blog in order to let th
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Neville Longbottom"
+msgid "David Garcia Gomez"
 msgstr ""
