@@ -99,44 +99,40 @@ class DraftsForFriends {
 		global $current_user;
 
 		if ( $params['post_id'] ) {
-			$p = get_post( $params['post_id'] );
-			if ( !$p ) {
+			$post = get_post( $params['post_id'] );
+
+			if ( !$post ) {
 				return __( 'There is no such post!', 'draftsforfriends' );
 			}
-			if ( 'publish' == get_post_status( $p ) ) {
+
+			if ( 'publish' == get_post_status( $post ) ) {
 				return __( 'The post is published!', 'draftsforfriends' );
 			}
-			$this->user_options['shared'][] = array(
-				'id'      => $p->ID,
+
+			$key = 'baba_' . wp_generate_password( 8, false, false );
+
+			$this->user_options['shared'][$key] = array(
+				'id'      => $post->ID,
 				'expires' => time() + $this->calc( $params ),
-				'key'     => 'baba_' . wp_generate_password( 8 )
+				'key'     => $key
 			);
+
 			$this->save_admin_options();
 		}
 	}
 
-	function process_delete( $params ) {
-		$shared = array();
-		foreach ( $this->user_options['shared'] as $share ) {
-			if ( $share['key'] == $params['key'] ) {
-				continue;
-			}
-			$shared[] = $share;
-		}
-		$this->user_options['shared'] = $shared;
+	function process_delete( $key ) {
+		unset( $this->user_options['shared'][$key] );
 		$this->save_admin_options();
 	}
 
 	function process_extend( $params ) {
-		$shared = array();
-		foreach( $this->user_options['shared'] as $share ) {
-			if ( $share['key'] == $params['key'] ) {
-				$share['expires'] += $this->calc( $params );
-			}
-			$shared[] = $share;
+		$key = $params['key'];
+
+		if ( isset( $this->user_options['shared'][$key] ) ) {
+			$this->user_options['shared'][$key]['expires'] += $this->calc( $params );
+			$this->save_admin_options();
 		}
-		$this->user_options['shared'] = $shared;
-		$this->save_admin_options();
 	}
 
 	function get_drafts() {
@@ -212,10 +208,11 @@ class DraftsForFriends {
 		} elseif ( isset($_POST['action']) && $_POST['action'] == 'extend' ) {
 			$msg = $this->process_extend( $_POST );
 		} elseif ( isset($_GET['action']) && $_GET['action'] == 'delete') {
-			$msg = $this->process_delete( $_GET );
+			$msg = $this->process_delete( $_GET['key'] );
 		}
 
 		$drafts = $this->get_drafts();
+		$page_name = $_GET['page'];
 
     	include_once plugin_dir_path( __FILE__ ). '../views/drafts-table.php';
 	}
@@ -262,7 +259,7 @@ class DraftsForFriends {
 		$hours =  __( 'hours', 'draftsforfriends' );
 		$days  =  __( 'days', 'draftsforfriends' );
 
-		include_once plugin_dir_path( __FILE__ ). '../views/measure-select.php';
+		include plugin_dir_path( __FILE__ ). '../views/measure-select.php';
 	}
 }
 ?>

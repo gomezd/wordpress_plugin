@@ -49,7 +49,7 @@
 					</form>
 				</td>
 				<td class="actions">
-					<a class="delete" href="edit.php?page=<?php echo plugin_basename(__FILE__); ?>&action=delete&key=<?php echo $key; ?>">
+					<a class="delete" href="edit.php?page=<?php echo $page_name; ?>&action=delete&key=<?php echo $key; ?>">
 						<?php _e( 'Delete', 'draftsforfriends' ); ?>
 					</a>
 				</td>
