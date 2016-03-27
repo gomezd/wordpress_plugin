@@ -121,7 +121,7 @@ class DraftsForFriends {
 			$expiration_time = &$this->user_options['shared'][$key]['expires'];
 			$extra_time = calculate_time( $amount, $unit );
 
-			if ( ($expiration_time - time()) < 0 ) {
+			if ( $expiration_time < time() ) {
 				// if it is expired, add time from now.
 				$expiration_time = time() + $extra_time;
 			} else {
@@ -211,13 +211,14 @@ class DraftsForFriends {
 	}
 
 	function can_view ( $post_id ) {
-		foreach ( $this->admin_options as $option ) {
-			$shares = $option['shared'];
+		$key = sanitize_text_field( $_GET['draftsforfriends'] );
 
-			foreach ( $shares as $share ) {
-				if ( $share[ 'key'] == $_GET['draftsforfriends'] && $post_id ) {
-					return true;
-				}
+		foreach ( $this->admin_options as $option ) {
+			$share = $option['shared'][$key];
+
+			if ( isset( $share ) && $post_id == $share['id'] &&
+				$share['expires'] > time() ) {
+				return true;
 			}
 		}
 		return false;
