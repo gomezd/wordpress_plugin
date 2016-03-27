@@ -29,3 +29,8 @@
 .draftsforfriends .expired {
 	color: #f00;
 }
+
+.draftsforfriends .timer {
+	display: flex;
+	min-width: 175px;
+}

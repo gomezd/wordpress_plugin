@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Drafts for Friends 0.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/drafts-for-friends\n"
-"POT-Creation-Date: 2016-03-26 06:50:32+00:00\n"
+"POT-Creation-Date: 2016-03-27 07:49:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,56 +12,81 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/class-drafts-for-friends.php:70
-#: includes/class-drafts-for-friends.php:71 views/drafts-table.php:14
-#: views/drafts-table.php:80
+#: includes/class-drafts-for-friends.php:53
+msgid "{num} hour"
+msgid_plural "{num} hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-drafts-for-friends.php:54
+msgid "{num} minute"
+msgid_plural "{num} minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-drafts-for-friends.php:55
+msgid "{num} second"
+msgid_plural "{num} seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: expiration time e.g. 3 days and 5 hours, 2 minuts and 5 seconds
+
+#: includes/class-drafts-for-friends.php:57
+msgid "{first} and {second}"
+msgstr ""
+
+#: includes/class-drafts-for-friends.php:80
+#: includes/class-drafts-for-friends.php:81 views/drafts-table.php:14
+#: views/drafts-table.php:96
 msgid "Drafts for Friends"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:85
+#: includes/class-drafts-for-friends.php:95
 msgid "There is no such post!"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:89
+#: includes/class-drafts-for-friends.php:99
 msgid "The post is published!"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:134
+#: includes/class-drafts-for-friends.php:167
 msgid "Your Drafts:"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:139
+#: includes/class-drafts-for-friends.php:171
 msgid "Your Scheduled Posts:"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:144
+#: includes/class-drafts-for-friends.php:175
 msgid "Pending Review:"
 msgstr ""
 
-#: includes/time-utils.php:23
+#: includes/time-utils.php:21 views/drafts-table.php:60
+msgid "Expired"
+msgstr ""
+
+#: includes/time-utils.php:28
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/time-utils.php:26
+#: includes/time-utils.php:31
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/time-utils.php:29
-msgid "Less than a minute"
-msgstr ""
+#: includes/time-utils.php:34
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] ""
+msgstr[1] ""
 
-#: includes/time-utils.php:31
-msgid "%d seconds"
-msgstr ""
+#. translators: expiration time e.g. 3 days and 5 hours
 
-#. translators: expiration time e.g. 3 hours and 27 minutes or 5 minutes and 10
-#. seconds
-
-#: includes/time-utils.php:36
+#: includes/time-utils.php:39
 msgid "%s and %s"
 msgstr ""
 
@@ -82,42 +107,51 @@ msgid "Link"
 msgstr ""
 
 #: views/drafts-table.php:25
-msgid "Expires In"
+msgid "Status"
 msgstr ""
 
 #: views/drafts-table.php:26
+msgid "Expires In"
+msgstr ""
+
+#: views/drafts-table.php:27
 msgid "Actions"
 msgstr ""
 
-#: views/drafts-table.php:47 views/drafts-table.php:54
-msgid "Extend"
-msgstr ""
-
-#: views/drafts-table.php:55
-msgid "by"
-msgstr ""
-
-#: views/drafts-table.php:59
-msgid "Cancel"
-msgstr ""
-
-#: views/drafts-table.php:65
-msgid "Delete"
-msgstr ""
-
-#: views/drafts-table.php:75
+#: views/drafts-table.php:37
 msgid "No shared drafts!"
 msgstr ""
 
-#: views/drafts-table.php:84
+#: views/drafts-table.php:44
+msgctxt "post"
+msgid "Scheduled"
+msgstr ""
+
+#: views/drafts-table.php:70 views/drafts-table.php:76
+msgid "Extend"
+msgstr ""
+
+#: views/drafts-table.php:78
+msgid "by"
+msgstr ""
+
+#: views/drafts-table.php:82
+msgid "Cancel"
+msgstr ""
+
+#: views/drafts-table.php:89
+msgid "Delete"
+msgstr ""
+
+#: views/drafts-table.php:100
 msgid "Choose a draft"
 msgstr ""
 
-#: views/drafts-table.php:109
+#: views/drafts-table.php:125
 msgid "Share it"
 msgstr ""
 
-#: views/drafts-table.php:110
+#: views/drafts-table.php:126
 msgid "for"
 msgstr ""
 

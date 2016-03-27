@@ -46,6 +46,17 @@ class DraftsForFriends {
 			array(),
 			$this->version
 		);
+		wp_localize_script(
+			$this->plugin_name,
+			'draftsforfriends_l10n',
+			array(
+				'hours'   => _n_noop( '{num} hour', '{num} hours', 'draftsforfriends' ),
+				'minutes' => _n_noop( '{num} minute', '{num} minutes', 'draftsforfriends' ),
+				'seconds' => _n_noop( '{num} second', '{num} seconds', 'draftsforfriends' ),
+				/* translators: expiration time e.g. 3 days and 5 hours, 2 minuts and 5 seconds */
+				'time'    => __( '{first} and {second}', 'draftsforfriends' )
+			)
+		);
 	}
 
 	function get_admin_options() {
