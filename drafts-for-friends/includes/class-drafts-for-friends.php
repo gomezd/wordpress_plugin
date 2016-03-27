@@ -69,37 +69,27 @@ class DraftsForFriends {
 			__( 'Drafts for Friends', 'draftsforfriends' ),
 			'edit_posts',
 			'drafts-for-friends',
-			array( $this, 'output_existing_menu_sub_admin_page' )
+			array( $this, 'process_page_request' )
 		);
 	}
 
-	function calc( $params ) {
-		$exp = 60;
-		$multiply = 60;
-
-		if ( isset( $params['expires'] ) && ($e = intval( $params['expires'] )) ) {
-			$exp = $e;
-		}
-
+	function calc( $time, $unit ) {
 		$mults = array(
 			's' => 1,
 			'm' => 60,
 			'h' => 3600,
 			'd' => 24*3600
 		);
+		$multiply = $mults[$unit] ? $mults[$unit] : 60;
 
-		if ( $params['measure'] && $mults[$params['measure']] ) {
-			$multiply = $mults[$params['measure']];
-		}
-
-		return $exp * $multiply;
+		return $time * $multiply;
 	}
 
-	function process_post_options( $params ) {
+	function share_post( $postId, $expires, $unit ) {
 		global $current_user;
 
-		if ( $params['post_id'] ) {
-			$post = get_post( $params['post_id'] );
+		if ( $postId ) {
+			$post = get_post( $postId );
 
 			if ( !$post ) {
 				return __( 'There is no such post!', 'draftsforfriends' );
@@ -113,7 +103,7 @@ class DraftsForFriends {
 
 			$this->user_options['shared'][$key] = array(
 				'id'      => $post->ID,
-				'expires' => time() + $this->calc( $params ),
+				'expires' => time() + $this->calc( $expires, $unit ),
 				'key'     => $key
 			);
 
@@ -126,11 +116,9 @@ class DraftsForFriends {
 		$this->save_admin_options();
 	}
 
-	function process_extend( $params ) {
-		$key = $params['key'];
-
+	function process_extend( $key, $expires, $unit ) {
 		if ( isset( $this->user_options['shared'][$key] ) ) {
-			$this->user_options['shared'][$key]['expires'] += $this->calc( $params );
+			$this->user_options['shared'][$key]['expires'] += $this->calc( $expires, $unit );
 			$this->save_admin_options();
 		}
 	}
@@ -202,13 +190,25 @@ class DraftsForFriends {
 		return $format[0];
 	}
 
-	function output_existing_menu_sub_admin_page() {
+	function process_page_request() {
 		if ( isset($_POST['draftsforfriends_submit']) ) {
-			$msg = $this->process_post_options( $_POST );
+			$postId = $_POST['post_id'];
+			$expires = $_POST['expires'];
+			$measure = $_POST['measure'];
+
+			$msg = $this->share_post( $postId, $expires, $measure );
+
 		} elseif ( isset($_POST['action']) && $_POST['action'] == 'extend' ) {
-			$msg = $this->process_extend( $_POST );
+			$key = $_POST['key'];
+			$expires = $_POST['expires'];
+			$measure = $_POST['measure'];
+
+			$msg = $this->process_extend( $key, $expires, $measure );
+
 		} elseif ( isset($_GET['action']) && $_GET['action'] == 'delete') {
-			$msg = $this->process_delete( $_GET['key'] );
+			$key = $_GET['key'];
+
+			$msg = $this->process_delete( $key );
 		}
 
 		$drafts = $this->get_drafts();
