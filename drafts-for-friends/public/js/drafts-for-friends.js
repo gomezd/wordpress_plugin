@@ -1,12 +1,17 @@
 (function( $ ) {
 	'use strict';
 
+	var SECONDS_PER_MINUTE = 60;
+	var SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+	var SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR;
+	var HOURS_PER_DAY = 24;
+
 	function formatTime( time ) {
 		var parts = [];
 		var secs  = time % 60;
-		var mins  = Math.floor( time / 60 ) % 60;
-		var hours = Math.floor( time / (60 * 60) ) % 24;
-		var days  = Math.floor( time / (60 * 60 * 24) );
+		var mins  = Math.floor( time / SECONDS_PER_MINUTE ) % SECONDS_PER_MINUTE;
+		var hours = Math.floor( time / SECONDS_PER_HOUR ) % HOURS_PER_DAY;
+		var days  = Math.floor( time / SECONDS_PER_DAY );
 
 		if ( secs > 0 ) {
 			parts.push( secs + ' seconds' );
@@ -47,10 +52,18 @@
 
 			function updateTime( elem, time ) {
 				if ( time > 0 ) {
+					var timeout = 1000;
+					var period = 1;
+
+					if ( time > SECONDS_PER_HOUR ) {
+						timeout *= SECONDS_PER_MINUTE;
+						period *= SECONDS_PER_MINUTE;
+					}
+
 					setTimeout(function() {
 						elem.text( formatTime( time ) );
-						updateTime( elem, --time );
-					}, 1000);
+						updateTime( elem, time - period );
+					}, timeout);
 				} else {
 					elem.text( 'Expired' );
 					elem.addClass( 'expired' )
