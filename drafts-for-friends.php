@@ -380,23 +380,24 @@ SELECT;
 	function print_admin_js() {
 ?>
 		<script type="text/javascript">
-			jQuery(function() {
-				jQuery('form.draftsforfriends-extend').hide();
-				jQuery('a.draftsforfriends-extend').show();
-				jQuery('a.draftsforfriends-extend-cancel').show();
-				jQuery('a.draftsforfriends-extend-cancel').css('display', 'inline' );
-			});
-			window.draftsforfriends = {
-				toggle_extend: function(key) {
-					jQuery('#draftsforfriends-extend-form-'+key).show();
-					jQuery('#draftsforfriends-extend-link-'+key).hide();
-					jQuery('#draftsforfriends-extend-form-'+key+' input[name="expires"]').focus();
-				},
-				cancel_extend: function(key) {
-					jQuery('#draftsforfriends-extend-form-'+key).hide();
-					jQuery('#draftsforfriends-extend-link-'+key).show();
-				}
-			};
+			(function( $ ) {
+				$('form.draftsforfriends-extend').hide();
+				$('a.draftsforfriends-extend').show();
+				$('a.draftsforfriends-extend-cancel').show();
+				$('a.draftsforfriends-extend-cancel').css('display', 'inline' );
+
+				window.draftsforfriends = {
+					toggle_extend: function(key) {
+						$('#draftsforfriends-extend-form-'+key).show();
+						$('#draftsforfriends-extend-link-'+key).hide();
+						$('#draftsforfriends-extend-form-'+key+' input[name="expires"]').focus();
+					},
+					cancel_extend: function(key) {
+						$('#draftsforfriends-extend-form-'+key).hide();
+						$('#draftsforfriends-extend-link-'+key).show();
+					}
+				};
+			})( jQuery );
 		</script>
 <?php
 	}
