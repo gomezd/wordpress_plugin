@@ -107,7 +107,17 @@ class DraftsForFriends {
 
 	function extend_shared_post_expiration( $key, $amount, $unit ) {
 		if ( isset( $this->user_options['shared'][$key] ) ) {
-			$this->user_options['shared'][$key]['expires'] += calculate_time( $amount, $unit );
+			$expiration_time = &$this->user_options['shared'][$key]['expires'];
+			$extra_time = calculate_time( $amount, $unit );
+
+			if ( ($expiration_time - time()) < 0 ) {
+				// if it is expired, add time from now.
+				$expiration_time = time() + $extra_time;
+			} else {
+				// add more time to the existing expiring time
+				$expiration_time += $extra_time;
+			}
+
 			$this->save_admin_options();
 		}
 	}
