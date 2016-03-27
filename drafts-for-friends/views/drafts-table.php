@@ -46,7 +46,8 @@ $measure_select_markup = tmpl_measure_select();
 			foreach ( $shared as $share ) :
 				$post = get_post( $share['id'] );
 				$key = esc_html( $share['key'] );
-				$expires = $share['expires'];
+				$expire_time = $share['expires'];
+				$time_to_expire = $expire_time - time();
 				$url = get_bloginfo( 'url' ) . '/?p=' . $post->ID . '&draftsforfriends='. $key;
 		?>
 			<tr>
@@ -55,11 +56,14 @@ $measure_select_markup = tmpl_measure_select();
 				<td><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_url( $url ); ?></a></td>
 				<td><?php echo $statuses[$post->post_status]; ?></td>
 				<td>
-
-					<span class="timer"
-						data-expire="<?php echo esc_attr( $expires - time() ); ?>">
-						<?php echo format_interval( $expires ) ?>
-					</span>
+					<?php if ( $time_to_expire < 0 ) : ?>
+						<span class="expired"><?php echo __( 'Expired' ); ?></span>
+					<?php else : ?>
+						<span class="timer"
+							data-expire="<?php echo esc_attr( $time_to_expire ); ?>">
+							<?php echo format_interval( $expire_time ); ?>
+						</span>
+					<?php endif; ?>
 				</td>
 				<td class="actions">
 					<a class="edit extend" href="">

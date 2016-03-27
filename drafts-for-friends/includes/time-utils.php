@@ -16,6 +16,11 @@ function format_interval( $time ) {
 	$now = new DateTime();
 	$exp = new DateTime();
 	$exp->setTimestamp( $time );
+
+	if ( $exp < $now ) {
+		return __( 'Expired' );
+	}
+
 	$diff = $now->diff( $exp );
 	$format = array();
 
@@ -26,7 +31,7 @@ function format_interval( $time ) {
 		$format[] = sprintf( _n( '%d minute', '%d minutes', $diff->i, 'draftsforfriends' ), $diff->i );
 	}
 	if ( ! count( $format ) ) {
-		return __('Less than a minute');
+		return __( 'Less than a minute' );
 	} else {
 		$format[] = sprintf( __( '%d seconds', 'draftsforfriends' ), $diff->s );
 	}
