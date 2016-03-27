@@ -125,17 +125,30 @@ class DraftsForFriends {
 	function get_drafts() {
 		global $current_user;
 
-		$my_drafts = get_users_drafts( $current_user->ID );
+		// get currently shared to exclude them
+		$shared_ids = array_map(
+			function ( $share ) { return  $share['id']; },
+			array_values( $this->user_options['shared'] )
+		);
+
+		$my_drafts = array_filter(
+			get_users_drafts( $current_user->ID ),
+			function ( $draft ) use (&$shared_ids) {
+				return ! in_array( $draft->ID, $shared_ids );
+			}
+		);
 
 		$my_scheduled = get_posts(array(
 			'post_author' => $current_user->ID,
 			'post_status' => 'future',
-			'orderby'     => 'post_modified'
+			'orderby'     => 'post_modified',
+			'exclude'     => $shared_ids
 		));
 
 		$pending = get_posts(array(
 			'post_author' => $current_user->ID,
-			'post_status' => 'pending'
+			'post_status' => 'pending',
+			'exclude'     => $shared_ids
 		));
 
 		$drafts = array(
