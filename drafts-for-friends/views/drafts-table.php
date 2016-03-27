@@ -1,3 +1,8 @@
+<?php
+/**
+ * The main drafts table template
+ */
+?>
 <div class="wrap draftsforfriends">
 	<h2><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h2>
 <?php if ( isset($msg) ) : ?>

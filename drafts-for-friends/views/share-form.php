@@ -1,3 +1,8 @@
+<?php
+/**
+ * Share post form template
+ */
+?>
 <h3><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h3>
 <form id="draftsforfriends-share" action="" method="post">
 	<p>

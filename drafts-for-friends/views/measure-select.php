@@ -1,3 +1,8 @@
+<?php
+/**
+ * Expire extend measure select template
+ */
+?>
 <input name="expires" class="fixed" type="text" value="2" size="4"/>
 <select name="measure">
 	<option value="s"><?php echo __( 'seconds', 'draftsforfriends' ); ?></option>

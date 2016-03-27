@@ -5,14 +5,63 @@
 require_once plugin_dir_path( dirname (__FILE__ ) ) . 'includes/time-utils.php';
 
 
+/**
+ * The core plugin class.
+ *
+ * Adds admin and public hooks
+ *
+ * Also maintains the unique identifier of this plugin as well as the current
+ * version of the plugin.
+ *
+ * @since      0.0.1
+ * @package    drafts-for-friends
+ * @subpackage drafts-for-friends/includes
+ */
 class DraftsForFriends {
 
+	/**
+	 * The unique identifier of this plugin.
+	 *
+	 * @since    0.0.1
+	 * @access   protected
+	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 */
+	protected $plugin_name;
+
+	/**
+	 * The current version of the plugin.
+	 *
+	 * @since    0.0.1
+	 * @access   protected
+	 * @var      string    $version    The current version of the plugin.
+	 */
+	protected $version;
+
+	/**
+	 * The current admin options.
+	 *
+	 * @since    0.0.1
+	 * @access   protected
+	 * @var      array    $admin_options    The current admin options.
+	 */
+	protected $admin_options;
+
+	/**
+	 * Set plugin name and version and init plugin
+	 *
+	 * @since    0.0.1
+	 */
 	function __construct() {
 		$this->plugin_name = 'drafts-for-friends';
 		$this->version = '0.0.1';
 		add_action( 'init', array( &$this, 'init' ) );
 	}
 
+	/**
+	 * Adds hooks, filters and enqueues scripts and styles.
+	 *
+	 * @since    0.0.1
+	 */
 	function init() {
 		global $current_user;
 
@@ -30,6 +79,11 @@ class DraftsForFriends {
 		$this->save_admin_options();
 	}
 
+	/**
+	 * Enqueues scripts and styles and sets up localization for scripts.
+	 *
+	 * @since    0.0.1
+	 */
 	function add_admin_scripts() {
 		wp_register_style(
 			$this->plugin_name,
@@ -59,11 +113,21 @@ class DraftsForFriends {
 		);
 	}
 
+	/**
+	 * Retrieve the save admin options
+	 *
+	 * @since    0.0.1
+	 */
 	function get_admin_options() {
 		$saved_options = get_option( 'shared'  );
 		return is_array( $saved_options )? $saved_options : array();
 	}
 
+	/**
+	 * Save current admin options
+	 *
+	 * @since    0.0.1
+	 */
 	function save_admin_options() {
 		global $current_user;
 
@@ -74,6 +138,11 @@ class DraftsForFriends {
 		update_option( 'shared', $this->admin_options );
 	}
 
+	/**
+	 * Adds admin submenu
+	 *
+	 * @since    0.0.1
+	 */
 	function add_admin_pages() {
 		add_submenu_page(
 			'edit.php',
@@ -85,6 +154,16 @@ class DraftsForFriends {
 		);
 	}
 
+	/**
+	 * Shares a post for the specified amount of time.
+	 *
+	 * @since    0.0.1
+	 *
+	 * @param int $post_id    The ID of the post to share
+	 * @param int $expires    Amount of time the post will be shared
+	 * @param string $unit    Unit of time
+	 *                        One of ['s', 'm', 'h', 'd'] (seconds, minutes, hours, days)
+	 */
 	function share_post( $post_id, $expires, $unit ) {
 		global $current_user;
 
@@ -101,6 +180,7 @@ class DraftsForFriends {
 
 			$key = 'baba_' . wp_generate_password( 8, false, false );
 
+			// shares ae indexed by the share key for easier retrieval
 			$this->user_options['shared'][$key] = array(
 				'id'      => $post->ID,
 				'expires' => time() + calculate_time( $expires, $unit ),
@@ -111,11 +191,28 @@ class DraftsForFriends {
 		}
 	}
 
+	/**
+	 * Deletes a shared post
+	 *
+	 * @since    0.0.1
+	 *
+	 * @param string key    The post url "draftsforfriends" shared key
+	 */
 	function delete_shared_post( $key ) {
 		unset( $this->user_options['shared'][$key] );
 		$this->save_admin_options();
 	}
 
+	/**
+	 * Extend the shared post expiration time for the specified amount of time.
+	 *
+	 * @since    0.0.1
+	 *
+	 * @param int $post_id    The ID of the post to share
+	 * @param int $expires    Amount of time the post will be shared
+	 * @param string $unit    Unit of time
+	 *                        One of ['s', 'm', 'h', 'd'] (seconds, minutes, hours, days)
+	 */
 	function extend_shared_post_expiration( $key, $amount, $unit ) {
 		if ( isset( $this->user_options['shared'][$key] ) ) {
 			$expiration_time = &$this->user_options['shared'][$key]['expires'];
@@ -133,6 +230,24 @@ class DraftsForFriends {
 		}
 	}
 
+	/**
+	 * Gets all posts that user is able to share
+	 *
+	 * User can share his/her current drafts, schedule posts and pending review posts.
+	 * Posts cannot be shared again while they are still active, meaning while share
+	 * expiration time is still valid.
+	 *
+	 * @since    0.0.1
+	 *
+	 * @return array    The drafts to share
+	 * <code>
+	 *    array(
+	 *        'user' => user's drafs,
+	 *        'scheduled' => user's scheduled posts,
+	 *        'pending' => user's pending review posts
+	 *    )
+	 * </code>
+	 */
 	function get_drafts() {
 		global $current_user;
 
@@ -179,10 +294,32 @@ class DraftsForFriends {
 		return $drafts;
 	}
 
+	/**
+	 * Retrieves the current shared posts
+	 *
+	 * @since    0.0.1
+	 *
+	 * @return array shared posts    Current shared posts, indexed by key
+	 * <code>
+	 *    array(
+	 *        ["key"] => array(
+	 *            'id' => post ID,
+	 *            'expires' => expiration timestamp
+	 *            'key' => share key
+	 *        )
+	 *    )
+	 * </code>
+	 */
 	function get_shared_posts() {
 		return isset( $this->user_options['shared'] ) ? $this->user_options['shared'] : array();
 	}
 
+	/**
+	 * Process the request and dispatches the corresponding action
+	 * and renders the main table view.
+	 *
+	 * @since    0.0.1
+	 */
 	function process_page_request() {
 		if ( isset($_POST['draftsforfriends_submit']) ) {
 			$post_id = intval( $_POST['post_id'] );
@@ -210,6 +347,14 @@ class DraftsForFriends {
 		include_once plugin_dir_path( dirname ( __FILE__ ) ). 'views/drafts-table.php';
 	}
 
+	/**
+	 * Checks if the specified post is shared and active.
+	 *
+	 * @since    0.0.1
+	 *
+	 * @param int $post_id    The post id
+	 * @return true if the post is shared and active, false otherwise
+	 */
 	function can_view ( $post_id ) {
 		$key = sanitize_text_field( $_GET['draftsforfriends'] );
 
@@ -224,6 +369,16 @@ class DraftsForFriends {
 		return false;
 	}
 
+	/**
+	 * post_results hook
+	 *
+	 * Checks if the post has not been published and it is shared and active.
+	 *
+	 * @since    0.0.1
+	 *
+	 * @param array $posts    The posts results array
+	 * @return array The posts results array
+	 */
 	function posts_results_intercept( $posts ) {
 		if ( 1 != count( $posts ) ) {
 			return $posts;
@@ -238,6 +393,14 @@ class DraftsForFriends {
 		return $posts;
 	}
 
+	/**
+	 * the_posts hook
+	 *
+	 * @since    0.0.1
+	 *
+	 * @param array $posts    The posts results array
+	 * @return array The posts results array
+	 */
 	function the_posts_intercept( $posts ) {
 		if ( empty( $posts ) && ! is_null( $this->shared_post ) ) {
 			return array( $this->shared_post );
