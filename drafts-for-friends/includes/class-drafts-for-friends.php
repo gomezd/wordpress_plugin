@@ -130,20 +130,17 @@ class DraftsForFriends {
 		));
 
 		$drafts = array(
-			array(
-				__( 'Your Drafts:', 'draftsforfriends' ),
-				count( $my_drafts ),
-				$my_drafts,
+			'user' => array(
+				'label' => __( 'Your Drafts:', 'draftsforfriends' ),
+				'posts' => $my_drafts,
 			),
-			array(
-				__( 'Your Scheduled Posts:', 'draftsforfriends' ),
-				count( $my_scheduled ),
-				$my_scheduled,
+			'scheduled' => array(
+				'label' => __( 'Your Scheduled Posts:', 'draftsforfriends' ),
+				'posts' => $my_scheduled,
 			),
-			array(
-				__( 'Pending Review:', 'draftsforfriends' ),
-				count( $pending ),
-				$pending,
+			'pending' => array(
+				'label' => __( 'Pending Review:', 'draftsforfriends' ),
+				'posts' => $pending,
 			),
 		);
 		return $drafts;

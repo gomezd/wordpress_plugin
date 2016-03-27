@@ -22,6 +22,7 @@ $measure_select_markup = tmpl_measure_select();
 				<th><?php _e( 'ID', 'draftsforfriends' ); ?></th>
 				<th><?php _e( 'Title', 'draftsforfriends' ); ?></th>
 				<th><?php _e( 'Link', 'draftsforfriends' ); ?></th>
+				<th><?php _e( 'Status', 'draftsforfriends' ); ?></th>
 				<th><?php _e( 'Expires In', 'draftsforfriends' ); ?></th>
 				<th colspan="2" class="actions"><?php _e( 'Actions', 'draftsforfriends' ); ?></th>
 			</tr>
@@ -29,6 +30,19 @@ $measure_select_markup = tmpl_measure_select();
 		<tbody>
 		<?php
 			$shared = $this->get_shared_posts();
+
+			if ( empty( $shared ) ) :
+		?>
+			<tr>
+				<td colspan="5"><?php _e( 'No shared drafts!', 'draftsforfriends' ); ?></td>
+			</tr>
+		<?php
+			endif;
+
+			$statuses = get_post_statuses();
+			// why isn't this in the initial statuses?
+			$statuses['future'] = _x( 'Scheduled', 'post' );
+
 			foreach ( $shared as $share ) :
 				$post = get_post( $share['id'] );
 				$key = esc_html( $share['key'] );
@@ -36,10 +50,10 @@ $measure_select_markup = tmpl_measure_select();
 				$url = get_bloginfo( 'url' ) . '/?p=' . $post->ID . '&draftsforfriends='. $key;
 		?>
 			<tr>
-				<td><?php echo $post->ID; ?></td>
-				<td><?php echo $post->post_title; ?></td>
-				<!-- TODO: make the draft link selecatble -->
+				<td><?php echo esc_html( $post->ID ); ?></td>
+				<td><?php echo esc_html( $post->post_title ); ?></td>
 				<td><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_url( $url ); ?></a></td>
+				<td><?php echo $statuses[$post->post_status]; ?></td>
 				<td><?php echo format_interval( $expires ) ?></td>
 				<td class="actions">
 					<a class="draftsforfriends-extend edit" id="draftsforfriends-extend-link-<?php echo $key; ?>"
@@ -68,15 +82,7 @@ $measure_select_markup = tmpl_measure_select();
 					</a>
 				</td>
 			</tr>
-		<?php
-			endforeach;
-
-			if ( empty( $s ) ) :
-		?>
-			<tr>
-				<td colspan="5"><?php _e( 'No shared drafts!', 'draftsforfriends' ); ?></td>
-			</tr>
-		<?php endif; ?>
+		<?php endforeach; ?>
 		</tbody>
 	</table>
 	<h3><?php _e( 'Drafts for Friends', 'draftsforfriends' ); ?></h3>
@@ -86,18 +92,18 @@ $measure_select_markup = tmpl_measure_select();
 				<option value=""><?php _e( 'Choose a draft', 'draftsforfriends' ); ?></option>
 			<?php
 				foreach ( $drafts as $draft ) :
-					if ( $draft[1] ) :
+					if ( !empty ( $draft['posts'] ) ) :
 			?>
 						<option value="" disabled="disabled"></option>
-						<option value="" disabled="disabled"><?php echo $draft[0]; ?></option>
+						<option value="" disabled="disabled"><?php echo esc_html( $draft['label'] ); ?></option>
 					<?php
-						foreach ($draft[2] as $d):
-							if ( empty( $d->post_title ) ) {
+						foreach ( $draft['posts'] as $post ):
+							if ( empty( $post->post_title ) ) {
 								continue;
 							}
 					?>
-							<option value="<?php echo $d->ID?>">
-								<?php echo esc_html( $d->post_title ); ?>
+							<option value="<?php echo esc_attr( $post->ID ); ?>">
+								<?php echo esc_html( $post->post_title ); ?>
 							</option>
 					<?php
 						endforeach;
