@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Drafts for Friends 0.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/drafts-for-friends\n"
-"POT-Creation-Date: 2016-03-27 07:49:29+00:00\n"
+"POT-Creation-Date: 2016-03-28 02:09:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,19 +12,19 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/class-drafts-for-friends.php:53
+#: includes/class-drafts-for-friends.php:107
 msgid "{num} hour"
 msgid_plural "{num} hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-drafts-for-friends.php:54
+#: includes/class-drafts-for-friends.php:108
 msgid "{num} minute"
 msgid_plural "{num} minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-drafts-for-friends.php:55
+#: includes/class-drafts-for-friends.php:109
 msgid "{num} second"
 msgid_plural "{num} seconds"
 msgstr[0] ""
@@ -32,53 +32,65 @@ msgstr[1] ""
 
 #. translators: expiration time e.g. 3 days and 5 hours, 2 minuts and 5 seconds
 
-#: includes/class-drafts-for-friends.php:57
+#: includes/class-drafts-for-friends.php:111
 msgid "{first} and {second}"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:80
-#: includes/class-drafts-for-friends.php:81 views/drafts-table.php:14
-#: views/drafts-table.php:96
+#: includes/class-drafts-for-friends.php:149
+#: includes/class-drafts-for-friends.php:150 views/drafts-table.php:7
+#: views/share-form.php:6
 msgid "Drafts for Friends"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:95
+#: includes/class-drafts-for-friends.php:174
 msgid "There is no such post!"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:99
+#: includes/class-drafts-for-friends.php:178
 msgid "The post is published!"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:167
+#: includes/class-drafts-for-friends.php:192
+msgid "Your post was succesfully shared."
+msgstr ""
+
+#: includes/class-drafts-for-friends.php:206
+msgid "Your shared post was succesfully deleted."
+msgstr ""
+
+#: includes/class-drafts-for-friends.php:234
+msgid "Your post expiration time was succesfully extended."
+msgstr ""
+
+#: includes/class-drafts-for-friends.php:287
 msgid "Your Drafts:"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:171
+#: includes/class-drafts-for-friends.php:291
 msgid "Your Scheduled Posts:"
 msgstr ""
 
-#: includes/class-drafts-for-friends.php:175
+#: includes/class-drafts-for-friends.php:295
 msgid "Pending Review:"
 msgstr ""
 
-#: includes/time-utils.php:21 views/drafts-table.php:60
+#: includes/time-utils.php:51 views/drafts-table.php:53
 msgid "Expired"
 msgstr ""
 
-#: includes/time-utils.php:28
+#: includes/time-utils.php:58
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/time-utils.php:31
+#: includes/time-utils.php:61
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/time-utils.php:34
+#: includes/time-utils.php:64
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] ""
@@ -86,89 +98,89 @@ msgstr[1] ""
 
 #. translators: expiration time e.g. 3 days and 5 hours
 
-#: includes/time-utils.php:39
+#: includes/time-utils.php:69
 msgid "%s and %s"
 msgstr ""
 
-#: views/drafts-table.php:18
+#: views/drafts-table.php:11
 msgid "Currently shared drafts"
 msgstr ""
 
-#: views/drafts-table.php:22
+#: views/drafts-table.php:15
 msgid "ID"
 msgstr ""
 
-#: views/drafts-table.php:23
+#: views/drafts-table.php:16
 msgid "Title"
 msgstr ""
 
-#: views/drafts-table.php:24
+#: views/drafts-table.php:17
 msgid "Link"
 msgstr ""
 
-#: views/drafts-table.php:25
+#: views/drafts-table.php:18
 msgid "Status"
 msgstr ""
 
-#: views/drafts-table.php:26
+#: views/drafts-table.php:19
 msgid "Expires In"
 msgstr ""
 
-#: views/drafts-table.php:27
+#: views/drafts-table.php:20
 msgid "Actions"
 msgstr ""
 
-#: views/drafts-table.php:37
+#: views/drafts-table.php:30
 msgid "No shared drafts!"
 msgstr ""
 
-#: views/drafts-table.php:44
+#: views/drafts-table.php:37
 msgctxt "post"
 msgid "Scheduled"
 msgstr ""
 
-#: views/drafts-table.php:70 views/drafts-table.php:76
+#: views/drafts-table.php:63 views/drafts-table.php:69
 msgid "Extend"
 msgstr ""
 
-#: views/drafts-table.php:78
+#: views/drafts-table.php:71
 msgid "by"
 msgstr ""
 
-#: views/drafts-table.php:82
+#: views/drafts-table.php:75
 msgid "Cancel"
 msgstr ""
 
-#: views/drafts-table.php:89
+#: views/drafts-table.php:82
 msgid "Delete"
 msgstr ""
 
-#: views/drafts-table.php:100
-msgid "Choose a draft"
-msgstr ""
-
-#: views/drafts-table.php:125
-msgid "Share it"
-msgstr ""
-
-#: views/drafts-table.php:126
-msgid "for"
-msgstr ""
-
-#: views/measure-select.php:3
+#: views/measure-select.php:8
 msgid "seconds"
 msgstr ""
 
-#: views/measure-select.php:4
+#: views/measure-select.php:9
 msgid "minutes"
 msgstr ""
 
-#: views/measure-select.php:5
+#: views/measure-select.php:10
 msgid "hours"
 msgstr ""
 
-#: views/measure-select.php:6
+#: views/measure-select.php:11
 msgid "days"
+msgstr ""
+
+#: views/share-form.php:10
+msgid "Choose a draft"
+msgstr ""
+
+#: views/share-form.php:35
+msgid "Share it"
+msgstr ""
+
+#: views/share-form.php:37
+msgid "for"
 msgstr ""
 #. Plugin Name of the plugin/theme
 msgid "Drafts for Friends"

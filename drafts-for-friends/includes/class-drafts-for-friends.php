@@ -120,7 +120,7 @@ class DraftsForFriends {
 	 */
 	function get_admin_options() {
 		$saved_options = get_option( 'shared'  );
-		return is_array( $saved_options )? $saved_options : array();
+		return is_array( $saved_options ) ? $saved_options : array();
 	}
 
 	/**
@@ -188,6 +188,8 @@ class DraftsForFriends {
 			);
 
 			$this->save_admin_options();
+
+			return __( 'Your post was succesfully shared.', 'draftsforfriends' );
 		}
 	}
 
@@ -201,6 +203,7 @@ class DraftsForFriends {
 	function delete_shared_post( $key ) {
 		unset( $this->user_options['shared'][$key] );
 		$this->save_admin_options();
+		return __( 'Your shared post was succesfully deleted.', 'draftsforfriends' );
 	}
 
 	/**
@@ -227,6 +230,8 @@ class DraftsForFriends {
 			}
 
 			$this->save_admin_options();
+
+			return __( 'Your post expiration time was succesfully extended.', 'draftsforfriends' );
 		}
 	}
 

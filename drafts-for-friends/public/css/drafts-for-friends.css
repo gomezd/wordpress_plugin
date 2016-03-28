@@ -42,3 +42,17 @@
 	display: flex;
 	min-width: 175px;
 }
+
+.draftsforfriends .fade {
+	animation-name: hideme;
+	animation-duration: 5s;
+	animation-delay: 2s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes hideme {
+	0%   { opacity: 1; }
+	50%  { opacity: 0; display: none; }
+	100% { opacity: 0; display: none; height: 0; }
+}
