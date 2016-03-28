@@ -361,14 +361,16 @@ class DraftsForFriends {
 	 * @return true if the post is shared and active, false otherwise
 	 */
 	function can_view ( $post_id ) {
-		$key = sanitize_text_field( $_GET['draftsforfriends'] );
+		if ( isset( $_GET['draftsforfriends'] ) ) {
+			$key = sanitize_text_field( $_GET['draftsforfriends'] );
 
-		foreach ( $this->admin_options as $option ) {
-			$share = $option['shared'][$key];
+			foreach ( $this->admin_options as $option ) {
+				$share = $option['shared'][$key];
 
-			if ( isset( $share ) && $post_id == $share['id'] &&
-				$share['expires'] > time() ) {
-				return true;
+				if ( isset( $share ) && $post_id == $share['id'] &&
+					$share['expires'] > time() ) {
+					return true;
+				}
 			}
 		}
 		return false;
